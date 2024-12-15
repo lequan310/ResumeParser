@@ -5,12 +5,12 @@
 
 **Steps:**
 1. Clone the repo
-```bash
+```shell
 git clone https://github.com/lequan310/ResumeParser.git
 ```
 
 2. Build Images and Run the Containers via Docker Compose
-```bash
+```shell
 docker compose up --build
 ```
 
@@ -19,24 +19,24 @@ docker compose up --build
 
 **Steps**:
 1. cd into BE folder
-```bash
+```shell
 cd resume-parser-core
 ```
 
 2. Create a Python Virtual Environment (Ideally 3.12+). Example using conda:
-```bash
+```python
 conda create -p .venv python=3.12.7 -y
 conda activate .venv/
 ```
 
 3. Install uv package manager and install the dependencies
-```bash
+```python
 pip install uv
 uv sync
 ```
 
 4. Run the FastAPI application
-```bash
+```python
 uvicorn api.app:app --host 0.0.0.0 --port 8000 --reload
 ```
 
@@ -45,16 +45,16 @@ uvicorn api.app:app --host 0.0.0.0 --port 8000 --reload
 
 **Steps:**
 1. cd into FE folder
-```bash
+```shell
 cd webapp
 ```
 
 2. Install dependencies
-```bash
+```node
 npm install
 ```
 
 3. Run the React application
-```bash
+```node
 npm run dev
 ```
