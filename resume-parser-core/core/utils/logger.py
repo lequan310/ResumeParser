@@ -1,5 +1,4 @@
 import logging
-import os
 import sys
 from logging import config
 from pathlib import Path
@@ -7,7 +6,7 @@ from rich.logging import RichHandler
 
 
 # Directories
-BASE_DIR = Path(__file__).parent.parent.absolute()
+BASE_DIR = Path(__file__).parent.parent.parent.absolute()
 LOGS_DIR = Path(BASE_DIR, "logs")
 LOGS_DIR.mkdir(parents=True, exist_ok=True)
 
@@ -45,7 +44,7 @@ logging_config = {
         },
     },
     "root": {
-        "handlers": ["console", "info", "error"],
+        "handlers": ["info", "error"],
         "level": logging.INFO,
         "propagate": True,
     },
