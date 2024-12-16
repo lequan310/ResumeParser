@@ -1,9 +1,7 @@
-import google.generativeai as genai
-import os
+from core.config import os
+from google import genai
 
-
-genai.configure(api_key=os.getenv("GOOGLE_API_KEY"))
-model = genai.GenerativeModel(
-    "gemini-2.0-flash-exp",
-    generation_config={"temperature": 0, "max_output_tokens": None},
+# Create the GenAI client
+client = genai.client.AsyncClient(
+    api_client=genai.client.ApiClient(api_key=os.getenv("GOOGLE_API_KEY"))
 )
