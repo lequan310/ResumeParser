@@ -3,13 +3,13 @@ from google.genai import types
 from langsmith.run_helpers import traceable
 from core.llm import client
 from core.utils.logger import logger
-from core.config import os
 
 
 @traceable(run_type="chain")
 async def convert_pdf_to_markdown(file: UploadFile) -> str:
     try:
-        response = await client.models.generate_content(
+        logger.info("Converting PDF to markdown...")
+        response = await client.aio.models.generate_content(
             model="gemini-2.0-flash-exp",
             contents=[
                 types.Part.from_bytes(
@@ -31,5 +31,5 @@ async def convert_pdf_to_markdown(file: UploadFile) -> str:
         logger.debug("Successfully converted PDF to markdown.")
         return response.text
     except Exception as e:
-        logger.error(e)
+        logger.error(e, exc_info=True)
         raise HTTPException(status_code=500, detail="Error converting PDF to markdown.")

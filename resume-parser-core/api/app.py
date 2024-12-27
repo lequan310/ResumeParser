@@ -1,7 +1,7 @@
-from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes.files import router as files_router
+from core.utils.logger import logger
 
 # Create the FastAPI app
 app = FastAPI(title="Resume Parser API", version="0.1.0")
@@ -11,8 +11,14 @@ app.include_router(files_router)
 
 
 @app.get("/")
-def read_root():
-    return {"message": "Welcome to Resume Parser API!"}
+def health_check():
+    return {"message": "OK"}
+
+
+@app.get("/test_log")
+def test_log():
+    logger.info("This is an info log")
+    return {"message": "Check the logs"}
 
 
 # Add CORS middleware
