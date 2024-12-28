@@ -40,7 +40,7 @@ uv sync
 4. Create .env file in the folder following the [.env.example](./resume-parser-core/.env.example)
 ```dotenv
 # API
-API_HOST
+API_HOST=
 API_PORT=
 
 # LLM
