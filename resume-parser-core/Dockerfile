@@ -1,8 +1,8 @@
 # Use the official Python 3.12 image from the Docker Hub
 FROM python:3.11-slim
 
-# Install uv
-RUN pip install --no-cache-dir uv uvicorn
+# Install uv.
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
 # Set the working directory in the container
 WORKDIR /app

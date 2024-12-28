@@ -16,6 +16,7 @@ const MainLayout = () => {
           icon={<History size={20} />}
           text="History"
           alert
+          active={false}
         ></SidebarItem>
       </Sidebar>
     </main>
