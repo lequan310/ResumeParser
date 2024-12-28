@@ -4,7 +4,7 @@ FROM node:current-alpine3.21 AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 
-RUN NODE_ENV=development npm install
+RUN npm install
 
 COPY . .
 RUN npm run build

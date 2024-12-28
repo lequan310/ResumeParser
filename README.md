@@ -13,7 +13,7 @@ git clone https://github.com/lequan310/ResumeParser.git
 
 3. Build Images and Run the Containers via Docker Compose
 ```shell
-docker compose up --build
+docker compose up --build -d
 ```
 
 ## BE (Local)
