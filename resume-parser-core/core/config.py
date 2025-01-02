@@ -69,12 +69,7 @@ logging_config = {
             "level": logging.DEBUG,
             "propagate": False,
         },
-        "core.parser.nodes": {
-            "handlers": ["console", "info", "error"],
-            "level": logging.DEBUG,
-            "propagate": False,
-        },
-        "core.utils.parser": {
+        "core.parser.utils.parse_utils": {
             "handlers": ["console", "info", "error"],
             "level": logging.DEBUG,
             "propagate": False,

@@ -1,18 +1,55 @@
 import pymupdf
 from fastapi import APIRouter, File, UploadFile, HTTPException
-from core.utils.parser import convert_pdf_to_markdown
+from core.parser.graph import parser_graph
+from core.parser.utils.parse_utils import convert_to_markdown
 
 router = APIRouter(prefix="/files", tags=["Files"])
 
 
-@router.post("/pdf_to_markdown")
+@router.post("/to_markdown")
 async def convert_markdown_single(file: UploadFile = File(...)):
-    """Convert an upload file into markdown."""
+    """Convert resume file to markdown.
 
-    if file.content_type != "application/pdf":
-        raise HTTPException(status_code=415, detail="Only PDF files are supported.")
+    Args:
+        file (UploadFile): Resume file. Defaults to File(...).
+
+    Raises:
+        HTTPException: Support only PDF and Image files
+
+    Returns:
+        response: str
+    """
+
+    if file.content_type != "application/pdf" and "image" not in file.content_type:
+        raise HTTPException(
+            status_code=415, detail="Only PDF and Image files are supported."
+        )
 
     # Convert from file to markdown
-    response = await convert_pdf_to_markdown(file=file)
+    response = await convert_to_markdown(file=file)
+
+    return {"response": response}
+
+
+@router.post("/parse_resume")
+async def parse_resume(file: UploadFile = File(...)):
+    """Parse Resume file into structured data.
+
+    Args:
+        file (UploadFile): Resume file. Defaults to File(...).
+
+    Raises:
+        HTTPException: Support only PDF and Image files
+
+    Returns:
+        response: OutputState
+    """
+
+    if file.content_type != "application/pdf" and "image" not in file.content_type:
+        raise HTTPException(
+            status_code=415, detail="Only PDF and Image files are supported."
+        )
+
+    response = await parser_graph.ainvoke({"input": file})
 
     return {"response": response}
