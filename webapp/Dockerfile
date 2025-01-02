@@ -1,11 +1,15 @@
 # Build the app
 FROM node:current-alpine3.21 AS build
 
-WORKDIR /app
-COPY . .
+RUN npm install -g pnpm
 
-RUN npm install
-RUN npm run build
+WORKDIR /app
+COPY package.json pnpm-lock.yaml ./
+
+RUN pnpm install
+
+COPY . .
+RUN pnpm run build
 
 # Deploy the app - copy the build files to the nginx server
 FROM nginx:stable-alpine-slim

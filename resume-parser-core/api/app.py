@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes.files import router as files_router
-from core.utils.logger import logger
+from core.config import get_logger
+
+logger = get_logger(__name__)
 
 # Create the FastAPI app
 app = FastAPI(title="Resume Parser API", version="0.1.0")

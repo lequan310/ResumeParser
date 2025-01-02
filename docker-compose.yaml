@@ -1,5 +1,6 @@
 services:
   api:
+    image: resume-parser-api
     build: 
       context: ./resume-parser-core
       dockerfile: Dockerfile
@@ -10,6 +11,7 @@ services:
     restart: always
 
   webapp:
+    image: resume-parser-webapp
     build: 
       context: ./webapp
       dockerfile: Dockerfile

@@ -169,3 +169,13 @@ cython_debug/
 
 # uv
 .uv_cache/
+
+# Others
+logs/
+tests/
+*.log
+README.md
+.gitignore
+.env.example
+.python-version
+Dockerfile
