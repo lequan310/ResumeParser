@@ -25,13 +25,14 @@ class Project(BaseModel):
     description: str
     start_date: str
     end_date: str
-    link: Optional[str]
+    link: Optional[list[str]]
 
 
 class Resume(BaseModel):
     name: str
     email: str
     phone: str
+    linkedin: Optional[str]
     latest_education: Education
     work_experiences: Optional[list[WorkExperience]]
     projects: Optional[list[Project]]
