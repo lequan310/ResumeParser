@@ -13,7 +13,7 @@ cd webapp
 
 2. Install dependencies
 ```node
-bun install
+bun install # Add --save-text-lockfile if using Bun version < 1.2.0
 ```
 
 3. Create .env file in the folder following the [.env.example](.env.example)

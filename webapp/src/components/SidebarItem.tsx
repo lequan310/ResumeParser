@@ -4,7 +4,7 @@ import { SidebarContext } from "@/context/SidebarContext";
 interface SidebarItemProps {
   icon: React.ReactNode;
   text: string;
-  active: boolean;
+  active?: boolean;
   alert: boolean;
 }
 

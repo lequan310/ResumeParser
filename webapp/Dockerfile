@@ -1,5 +1,7 @@
 # Build the app
-FROM oven/bun:alpine AS build
+FROM node:current-alpine3.21 AS build
+
+RUN npm install -g bun
 
 WORKDIR /app
 COPY package.json bun.lock ./
