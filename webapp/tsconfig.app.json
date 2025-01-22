@@ -20,7 +20,12 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedSideEffectImports": true
+    "noUncheckedSideEffectImports": true,
+
+    "baseUrl": ".", // This tells TypeScript where to start resolving paths
+    "paths": {
+      "@/*": ["src/*"] // This maps @/ to the src/ directory
+    }
   },
   "include": ["src"]
 }

@@ -1,5 +1,5 @@
 # Use the official Python 3.12 image from the Docker Hub
-FROM python:3.12-slim
+FROM python:3.12-slim-bookworm AS builder
 
 # Install uv.
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
@@ -24,6 +24,13 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 ADD . /app
 RUN --mount=type=cache,target=/root/.cache/uv \
     uv sync --frozen --no-dev
+
+FROM python:3.12-slim-bookworm
+
+# Copy the application from the builder
+COPY --from=builder --chown=app:app /app /app
+
+WORKDIR /app
 
 # Expose the port the app runs on
 EXPOSE 8000
