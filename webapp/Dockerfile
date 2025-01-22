@@ -1,15 +1,13 @@
 # Build the app
-FROM node:current-alpine3.21 AS build
-
-RUN npm install -g pnpm
+FROM oven/bun:alpine AS build
 
 WORKDIR /app
-COPY package.json pnpm-lock.yaml ./
+COPY package.json bun.lockb ./
 
-RUN pnpm install
+RUN bun install
 
 COPY . .
-RUN pnpm run build
+RUN bun run build
 
 # Deploy the app - copy the build files to the nginx server
 FROM nginx:stable-alpine-slim
