@@ -12,7 +12,7 @@ app = FastAPI(title="Resume Parser API", version="0.1.0")
 app.include_router(files_router)
 
 
-@app.get("/")
+@app.get("/health")
 def health_check():
     return {"message": "OK"}
 

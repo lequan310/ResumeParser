@@ -6,11 +6,11 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "fastapi[standard]>=0.115.6",
-    "google-genai>=0.3.0",
-    "langchain>=0.3.13",
-    "langgraph>=0.2.60",
-    "langsmith>=0.2.6",
-    "pymupdf>=1.25.1",
+    "google-genai==0.3.0",
+    "langchain>=0.3.15",
+    "langgraph>=0.2.66",
+    "langsmith>=0.3.0",
+    "pymupdf>=1.25.2",
     "pytest>=8.3.4",
     "python-dateutil>=2.9.0.post0",
     "python-dotenv>=1.0.1",

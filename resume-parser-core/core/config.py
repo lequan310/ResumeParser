@@ -74,6 +74,11 @@ logging_config = {
             "level": logging.DEBUG,
             "propagate": False,
         },
+        "core.utils.pdf_utils": {
+            "handlers": ["console", "info", "error"],
+            "level": logging.DEBUG,
+            "propagate": False,
+        },
     },
     "root": {
         "handlers": ["info", "error"],

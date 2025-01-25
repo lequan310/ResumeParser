@@ -4,6 +4,15 @@ from dateutil.relativedelta import relativedelta
 
 
 def get_position_duration(start: str, end: str) -> dict:
+    """Get the duration between two dates.
+
+    Args:
+        start (str): start date
+        end (str): end date
+
+    Returns:
+        dict: duration in years and months
+    """
     try:
         start_date = parser.parse(start)
     except ValueError:

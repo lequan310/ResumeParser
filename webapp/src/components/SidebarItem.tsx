@@ -1,10 +1,10 @@
 import { useContext } from "react";
-import { SidebarContext } from "../context/SidebarContext";
+import { SidebarContext } from "@/context/SidebarContext";
 
 interface SidebarItemProps {
   icon: React.ReactNode;
   text: string;
-  active: boolean;
+  active?: boolean;
   alert: boolean;
 }
 
