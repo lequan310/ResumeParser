@@ -20,10 +20,8 @@ async def convert_markdown_single(file: UploadFile = File(...)):
         response: str
     """
 
-    if file.content_type != "application/pdf" and "image" not in file.content_type:
-        raise HTTPException(
-            status_code=415, detail="Only PDF and Image files are supported."
-        )
+    if file.content_type != "application/pdf":
+        raise HTTPException(status_code=415, detail="Only PDF files are supported.")
 
     # Convert from file to markdown
     response = await convert_to_markdown(file=file)
@@ -45,10 +43,8 @@ async def parse_resume(file: UploadFile = File(...)):
         response: OutputState
     """
 
-    if file.content_type != "application/pdf" and "image" not in file.content_type:
-        raise HTTPException(
-            status_code=415, detail="Only PDF and Image files are supported."
-        )
+    if file.content_type != "application/pdf":
+        raise HTTPException(status_code=415, detail="Only PDF files are supported.")
 
     response = await parser_graph.ainvoke({"input": file})
 

@@ -1,6 +1,6 @@
 import { ChevronLast, ChevronFirst } from "lucide-react";
 import { useState } from "react";
-import { SidebarContext } from "../../context/SidebarContext";
+import { SidebarContext } from "@/context/SidebarContext";
 
 interface SidebarProps {
   children: React.ReactNode;

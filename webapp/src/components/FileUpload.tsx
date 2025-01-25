@@ -2,7 +2,7 @@ import { UploadIcon } from "lucide-react";
 import React, { ChangeEvent, useState } from "react";
 
 interface FileUploadProps {
-  onFileSelect: (file: FileList) => void;
+  onFileSelect: (file: File) => void;
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
@@ -23,14 +23,14 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
     e.stopPropagation();
     setDragActive(false);
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      onFileSelect(e.dataTransfer.files);
+      onFileSelect(e.dataTransfer.files[0]);
     }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     if (e.target.files && e.target.files.length > 0) {
-      onFileSelect(e.target.files);
+      onFileSelect(e.target.files[0]);
     }
   };
 
@@ -59,8 +59,8 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
           type="file"
           className="hidden"
           onChange={handleChange}
-          accept=".pdf,.png,.jpg,.jpeg"
-          multiple={true}
+          accept=".pdf"
+          multiple={false}
         />
       </label>
     </div>

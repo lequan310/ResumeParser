@@ -6,13 +6,13 @@ RUN npm install -g bun
 WORKDIR /app
 COPY package.json bun.lock ./
 
-RUN bun install
+RUN bun install --frozen-lockfile
 
 COPY . .
 RUN bun run build
 
 # Deploy the app - copy the build files to the nginx server
-FROM nginx:stable-alpine-slim
+FROM nginx:stable-alpine-slim AS deploy
 
 COPY --from=build /app/dist /usr/share/nginx/html
 

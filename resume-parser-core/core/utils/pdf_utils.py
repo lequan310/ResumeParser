@@ -15,7 +15,7 @@ def get_links_from_pdf(file: bytes) -> list:
         list: list of hyperlinks
     """
     try:
-        logger.debug("Getting hyperlinks from the PDF file...")
+        # logger.debug("Getting hyperlinks from the PDF file...")
         all_links = []
 
         # Open the PDF file using PyMUPDF
@@ -27,14 +27,14 @@ def get_links_from_pdf(file: bytes) -> list:
                 links = [link["uri"] for link in page.get_links()]
                 all_links += links
 
-        logger.debug(all_links)
+        # logger.debug(all_links)
         return all_links
     except Exception as e:
         logger.exception(e)
         return []
     finally:
         doc.close()
-        logger.debug("Closed the PyMUPDF file.")
+        # logger.debug("Closed the PyMUPDF file.")
 
 
 def get_context(file: bytes) -> str:
@@ -54,6 +54,7 @@ def get_context(file: bytes) -> str:
         context = (
             "Additional Context: This file contains the following hyperlinks:\n"
             + all_links_concat
+            + "\n\nInclude this information in the resume markdown conversion."
         )
 
     return context

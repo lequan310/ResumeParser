@@ -55,7 +55,7 @@ async def convert_to_markdown(file: UploadFile) -> str:
         raise HTTPException(status_code=500, detail="Error converting PDF to markdown.")
     finally:
         await file.close()
-        logger.debug("Closed the file %s.", file.filename)
+        # logger.debug("Closed the file %s.", file.filename)
 
 
 @traceable(run_type="llm")

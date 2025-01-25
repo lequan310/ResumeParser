@@ -2,6 +2,13 @@ from pydantic import BaseModel
 from typing import Optional
 
 
+class PersonalInformation(BaseModel):
+    name: str
+    email: str
+    phone: str
+    linkedin: Optional[str]
+
+
 class Education(BaseModel):
     degree: str
     major: str
@@ -29,10 +36,7 @@ class Project(BaseModel):
 
 
 class Resume(BaseModel):
-    name: str
-    email: str
-    phone: str
-    linkedin: Optional[str]
+    personal_information: PersonalInformation
     latest_education: Education
     work_experiences: Optional[list[WorkExperience]]
     projects: Optional[list[Project]]
