@@ -31,7 +31,6 @@ const PDFViewer = () => {
       onLoadSuccess={onDocumentLoadSuccess}
       options={options}
       className="flex flex-col items-center"
-      noData=""
     >
       {Array.from(new Array(numPages), (_el, index) => (
         <Page

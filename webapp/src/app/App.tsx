@@ -8,7 +8,7 @@ const App = () => {
     <AppProviders>
       <BrowserRouter>
         <Navbar />
-        <div className="pt-16">
+        <div className="pt-16 w-screen">
           <Routes>
             <Route index element={<Upload />} />
             <Route path="/upload" element={<Upload />} />
