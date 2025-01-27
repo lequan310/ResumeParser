@@ -42,7 +42,7 @@ jobs:
         cache-from: type=gha,scope=resume-parser-core
         cache-to: type=gha,mode=min,scope=resume-parser-core
 
-    - name: Fail build on High/Criticial Vulnerabilities
+    - name: Check for vulnerabilities in the image
       uses: aquasecurity/trivy-action@master
       with:
         image-ref: ${{ env.REGISTRY }}/${{ secrets.NAMESPACE }}/resume-parser-core:latest
