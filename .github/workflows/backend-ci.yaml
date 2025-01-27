@@ -35,8 +35,8 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v6
       with:
-        working-directory: ./resume-parser-core
-        file: Dockerfile
+        context: ./resume-parser-core
+        file: ./resume-parser-core/Dockerfile
         push: true
         tags: ${{ env.REGISTRY }}/${{ secrets.NAMESPACE }}/resume-parser-core:latest
         cache-from: type=gha,scope=resume-parser-core
