@@ -47,13 +47,11 @@ const FileUpload: React.FC<FileUploadProps> = ({ onFileSelect }) => {
       <label className="flex flex-col items-center justify-center h-full space-y-4 cursor-pointer">
         <UploadIcon className="w-12 h-12 text-gray-400 stroke-2" />
         <div className="text-center">
-          <p className="text-lg font-medium text-gray-600">
+          <p className="text-lg font-medium text-gray-300">
             Drop your files here, or
             <span className="text-blue-500 hover:text-blue-600"> browse</span>
           </p>
-          <p className="text-sm text-gray-500">
-            Supported files: PDF, PNG, JPG
-          </p>
+          <p className="text-sm text-gray-100">Supported files: PDF</p>
         </div>
         <input
           type="file"

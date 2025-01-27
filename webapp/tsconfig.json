@@ -3,5 +3,11 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": ".", // This tells TypeScript where to start resolving paths
+    "paths": {
+      "@/*": ["./src/*"] // This maps @/ to the src/ directory
+    }  
+  },
 }

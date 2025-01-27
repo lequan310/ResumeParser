@@ -24,7 +24,7 @@
 
     "baseUrl": ".", // This tells TypeScript where to start resolving paths
     "paths": {
-      "@/*": ["src/*"] // This maps @/ to the src/ directory
+      "@/*": ["./src/*"] // This maps @/ to the src/ directory
     }
   },
   "include": ["src"]

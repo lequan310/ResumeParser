@@ -16,7 +16,7 @@ const options = {
 };
 
 const PDFViewer = () => {
-  const context = usePDFContext();
+  const pdfContext = usePDFContext();
   const [numPages, setNumPages] = useState<number>();
 
   function onDocumentLoadSuccess({
@@ -27,7 +27,7 @@ const PDFViewer = () => {
 
   return (
     <Document
-      file={context.currentPdf}
+      file={pdfContext.currentPdf}
       onLoadSuccess={onDocumentLoadSuccess}
       options={options}
       className="flex flex-col items-center"

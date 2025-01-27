@@ -1,4 +1,5 @@
 from copy import deepcopy
+from core.models.resume import Resume
 
 
 def resolve_ref(ref: str, defs: dict) -> dict:
