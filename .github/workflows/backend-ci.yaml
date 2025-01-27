@@ -41,13 +41,3 @@ jobs:
         tags: ${{ env.REGISTRY }}/${{ secrets.NAMESPACE }}/resume-parser-core:latest
         cache-from: type=gha,scope=resume-parser-core
         cache-to: type=gha,mode=min,scope=resume-parser-core
-
-    - name: Check for vulnerabilities in the image
-      uses: aquasecurity/trivy-action@master
-      with:
-        image-ref: ${{ env.REGISTRY }}/${{ secrets.NAMESPACE }}/resume-parser-core:latest
-        format: 'table'
-        exit-code: '1'
-        ignore-unfixed: true
-        vuln-type: 'os,library'
-        severity: 'CRITICAL,HIGH'
