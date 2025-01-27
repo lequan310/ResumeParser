@@ -28,6 +28,7 @@ API_PORT=
 
 # LLM
 GOOGLE_API_KEY=
+GROQ_API_KEY=
 
 # Tracing via LangSmith (Optional)
 LANGCHAIN_TRACING_V2=
