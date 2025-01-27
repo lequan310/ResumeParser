@@ -1,0 +1,47 @@
+name: Backend CI
+
+on:
+  push:
+    branches: [ "master" ]
+    paths: 
+      - "resume-parser-core/*"
+      - ".github/workflows/backend-ci.yaml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: development
+
+    steps:
+    - name: Checkout the code
+      uses: actions/checkout@v4
+
+    - name: Login to Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Set up Docker buildx
+      uses: docker/setup-buildx-action@v3
+
+    - name: Build and push
+      uses: docker/build-push-action@v6
+      with:
+        context: ./resume-parser-core
+        file: Dockerfile
+        push: true
+        tags: ${{ env.REGISTRY }}/${{ secrets.NAMESPACE }}/resume-parser-core:latest
+        cache-from: type=gha,scope=resume-parser-core
+        cache-to: type=gha,mode=min,scope=resume-parser-core
+
+    - name: Fail build on High/Criticial Vulnerabilities
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: ${{ env.REGISTRY }}/${{ secrets.NAMESPACE }}/resume-parser-core:latest
+        format: 'table'
+        exit-code: '1'
+        ignore-unfixed: true
+        vuln-type: 'os,library'
+        severity: 'CRITICAL,HIGH'
