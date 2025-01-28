@@ -5,6 +5,12 @@ on:
     branches: [ "master" ]
     paths: 
       - "webapp/*"
+      - ".github/workflows/frontend-ci.yaml"
+  pull_request:
+    branches: [ "master" ]
+    paths: 
+      - "webapp/*"
+      - ".github/workflows/front end-ci.yaml"
 
 jobs:
   build:
