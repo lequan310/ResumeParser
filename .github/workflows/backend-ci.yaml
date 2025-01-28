@@ -5,6 +5,12 @@ on:
     branches: [ "master" ]
     paths: 
       - "resume-parser-core/*"
+      - ".github/workflows/backend-ci.yaml"
+  pull_request:
+    branches: [ "master" ]
+    paths: 
+      - "resume-parser-core/*"
+      - ".github/workflows/backend-ci.yaml"
 
 jobs:
   build:
