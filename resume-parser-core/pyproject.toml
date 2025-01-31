@@ -19,6 +19,3 @@ dependencies = [
     "psycopg[binary,pool]>=3.2.4",
     "langgraph-checkpoint-postgres>=2.0.13",
 ]
-
-[tool.uv]
-cache-dir = "./.uv_cache"
