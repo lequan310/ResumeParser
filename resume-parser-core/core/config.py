@@ -79,6 +79,16 @@ logging_config = {
             "level": logging.DEBUG,
             "propagate": False,
         },
+        "core.chat.utils.nodes": {
+            "handlers": ["console", "info", "error"],
+            "level": logging.DEBUG,
+            "propagate": False,
+        },
+        "core.chat.graph": {
+            "handlers": ["console", "info", "error"],
+            "level": logging.DEBUG,
+            "propagate": False,
+        },
     },
     "root": {
         "handlers": ["info", "error"],

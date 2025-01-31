@@ -7,7 +7,8 @@ from langchain_core.messages import (
     HumanMessage,
 )
 from langchain_core.runnables import RunnableConfig
-from core.llm import deepseek_agent, gemini_llm
+from core.llm import gemini_llm
+from core.agent import deepseek_agent
 from core.chat.utils.tools import tools_by_name
 from core.chat.utils.state import State
 from core.chat.utils.prompts import DEEPSEEK_SYSTEM_MESSAGE

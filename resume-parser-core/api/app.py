@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes.files import router as files_router
+from api.routes.chat import router as chat_router
 from core.config import get_logger
 
 logger = get_logger(__name__)
@@ -10,6 +11,7 @@ app = FastAPI(title="Resume Parser API", version="0.1.0")
 
 # Include the routers
 app.include_router(files_router)
+app.include_router(chat_router)
 
 
 @app.get("/health")
