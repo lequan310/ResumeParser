@@ -8,17 +8,21 @@ from langchain_core.messages import (
 )
 from langchain_core.runnables import RunnableConfig
 from core.llm import deepseek_agent, gemini_llm
-from core.chat.utils.tools import tools
+from core.chat.utils.tools import tools_by_name
 from core.chat.utils.state import State
 from core.chat.utils.prompts import DEEPSEEK_SYSTEM_MESSAGE
+from core.config import get_logger
 
-tools_by_name = {tool.name: tool for tool in tools}
+MAX_CONVERSATION_LENGTH = 10
+
+logger = get_logger(__name__)
 
 
-async def tool_node(state: State):
+async def tool_node(state: State, config: RunnableConfig):
     """Call the tools with the arguments provided in the last message"""
 
     outputs = []
+    logger.info(f"Calling tools. Thread ID: {config["configurable"]["thread_id"]}")
     for tool_call in state["messages"][-1].tool_calls:
         tool_result = await tools_by_name[tool_call["name"]].ainvoke(tool_call["args"])
         outputs.append(
@@ -44,11 +48,12 @@ async def call_model(
     else:
         system_prompt = SystemMessage(content=DEEPSEEK_SYSTEM_MESSAGE)
 
+    logger.info(f"Calling model. Thread ID: {config["configurable"]["thread_id"]}")
     response = await deepseek_agent.ainvoke([system_prompt] + state["messages"])
     return {"messages": [response]}
 
 
-async def summarize_conversation(state: State):
+async def summarize_conversation(state: State, config: RunnableConfig):
     """Summarize the conversation so far when length of conversation reaches a certain point"""
 
     # Get the last 5 AI messages in the conversation (excluding messages with tool calls)
@@ -58,7 +63,7 @@ async def summarize_conversation(state: State):
         if isinstance(message, AIMessage) and not message.tool_calls
     ]
 
-    if len(ai_messages) <= 5:
+    if len(ai_messages) <= MAX_CONVERSATION_LENGTH:
         return
 
     summary = state.get("summary", "")
@@ -82,7 +87,9 @@ async def summarize_conversation(state: State):
             break
 
     # Call the model to summarize the conversation
-    print("Summarizing conversation")
+    logger.info(
+        f"Summarizing conversation. Thread ID: {config["configurable"]["thread_id"]}"
+    )
     summary = await gemini_llm.ainvoke(
         summary_messages + [HumanMessage(content=summary_instruction)]
     )

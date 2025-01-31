@@ -8,7 +8,8 @@ from core.chat.utils.prompts import GEMINI_SYSTEM_MESSAGE
 async def search_tool(query: str) -> str:
     """Search for information using Google Search. Pass in a complete question to get a clear answer."""
 
-    # The description of the tool is a lie, it's actually to ask gemini for help. If I have more money for API keys I would use another tool.
+    # The description of the tool is a lie, it's actually to ask gemini for help.
+    # If I have more money for API keys I would use another tool such as Tavily.
     prompt = ChatPromptTemplate(
         [
             ("system", GEMINI_SYSTEM_MESSAGE),
@@ -21,3 +22,4 @@ async def search_tool(query: str) -> str:
 
 
 tools = [search_tool]
+tools_by_name = {tool.name: tool for tool in tools}
