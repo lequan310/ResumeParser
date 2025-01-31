@@ -17,12 +17,10 @@ class ParserGraph:
         graph.add_node(
             "get_resume_markdown",
             get_resume_markdown,
-            retry=RetryPolicy(max_attempts=3),
         )
         graph.add_node(
             "get_resume_structured",
             get_resume_structured,
-            retry=RetryPolicy(max_attempts=3),
         )
         graph.add_node("postprocess_resume_output", postprocess_resume_output)
 

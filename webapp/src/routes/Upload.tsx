@@ -21,16 +21,16 @@ const Upload = () => {
         return;
       }
       pdfContext.setCurrentPdf(file);
+      navContext.setActiveTab("analyze");
     },
-    [pdfContext]
+    [pdfContext, navContext]
   );
 
   useEffect(() => {
-    if (pdfContext.currentPdf) {
-      navContext.setActiveTab("analyze");
+    if (pdfContext.currentPdf && navContext.activeTab === "analyze") {
       navigate(ANALYZE_PATH);
     }
-  }, [pdfContext.currentPdf, navContext, navigate]);
+  }, [pdfContext, navContext, navigate]);
 
   return (
     <MainLayout>
