@@ -13,6 +13,7 @@ def get_connection_pool():
             max_size=20,
             kwargs={
                 "autocommit": True,
+                "prepare_threshold": 0,
             },
             open=False,
         )
