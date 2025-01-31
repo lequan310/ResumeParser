@@ -89,6 +89,11 @@ logging_config = {
             "level": logging.DEBUG,
             "propagate": False,
         },
+        "db.pool": {
+            "handlers": ["console", "info", "error"],
+            "level": logging.DEBUG,
+            "propagate": False,
+        },
     },
     "root": {
         "handlers": ["info", "error"],

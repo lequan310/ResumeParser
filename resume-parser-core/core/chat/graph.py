@@ -1,8 +1,8 @@
-from psycopg_pool import AsyncConnectionPool
 from langchain_core.runnables import RunnableConfig
 from langchain_core.messages import HumanMessage, AIMessageChunk
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from langgraph.graph import StateGraph, START, END
+from db.pool import get_connection_pool
 from core.config import os, get_logger
 from core.chat.utils.state import State
 from core.chat.utils.nodes import (
@@ -22,20 +22,12 @@ class ChatGraph:
 
     async def setup(self):
         try:
-            async with AsyncConnectionPool(
-                # Example configuration
-                conninfo=os.getenv("DB_URI"),
-                max_size=20,
-                kwargs={
-                    "autocommit": True,
-                    "prepare_threshold": 0,
-                },
-            ) as pool:
+            async with get_connection_pool().connection() as conn:
                 # Create the graph
                 graph = StateGraph(state_schema=State)
 
                 # Create checkpointer
-                checkpointer = AsyncPostgresSaver()
+                checkpointer = AsyncPostgresSaver(conn=conn)
                 await checkpointer.setup()
 
                 # Add nodes
@@ -62,7 +54,9 @@ class ChatGraph:
     async def ainvoke(self, input: dict, config: RunnableConfig = None):
         if self._chatflow is None:
             raise RuntimeError("ChatGraph not properly initialized. Call setup() first")
-        return await self._chatflow.ainvoke(input, config=config)
+
+        async with get_connection_pool().connection() as conn:
+            return await self._chatflow.ainvoke(input, config=config)
 
     async def astream(self, input: str, config: RunnableConfig = None):
         """Stream LLM responses for the conversation"""
@@ -70,14 +64,15 @@ class ChatGraph:
         if self._chatflow is None:
             raise RuntimeError("ChatGraph not properly initialized. Call setup() first")
 
-        async for msg, metadata in self._chatflow.astream(
-            {"messages": HumanMessage(content=input)},
-            stream_mode="messages",
-            config=config,
-        ):
-            if (
-                msg.content
-                and isinstance(msg, AIMessageChunk)
-                and metadata["langgraph_node"] == "call_model"
+        async with get_connection_pool().connection() as conn:
+            async for msg, metadata in self._chatflow.astream(
+                {"messages": HumanMessage(content=input)},
+                stream_mode="messages",
+                config=config,
             ):
-                yield msg.content
+                if (
+                    msg.content
+                    and isinstance(msg, AIMessageChunk)
+                    and metadata["langgraph_node"] == "call_model"
+                ):
+                    yield msg.content

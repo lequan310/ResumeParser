@@ -1,10 +1,13 @@
+from contextlib import asynccontextmanager
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes.files import router as files_router
 from api.routes.chat import router as chat_router
 from core.config import get_logger
+from db.pool import get_connection_pool
 
 logger = get_logger(__name__)
+
 
 # Create the FastAPI app
 app = FastAPI(title="Resume Parser API", version="0.1.0")
@@ -15,14 +18,15 @@ app.include_router(chat_router)
 
 
 @app.get("/health")
-def health_check():
-    return {"message": "OK"}
-
-
-@app.get("/test_log")
-def test_log():
-    logger.info("This is an info log")
-    return {"message": "Check the logs"}
+async def health_check():
+    async with get_connection_pool().connection() as conn:
+        async with conn.cursor() as cur:
+            await cur.execute("SELECT 1")  # Minimal query
+            result = await cur.fetchone()
+            if result == (1,):
+                return {"message": "OK"}
+            else:
+                return {"message": "Not OK"}
 
 
 # Add CORS middleware
