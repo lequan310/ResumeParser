@@ -67,7 +67,7 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
               }`}
             >
               <div
-                className={`max-w-[80%] rounded-lg p-2.5 m-1 ${
+                className={`max-w-[80%] rounded-lg p-2.5 m-1 whitespace-pre-wrap ${
                   message.isUser ? "bg-blue-600" : "bg-gray-700"
                 }`}
               >
