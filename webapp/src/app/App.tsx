@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Upload, Analyze, History } from "@/routes";
 import { AppProviders } from "@/app/provider";
+import { ChatButton, ChatBox } from "@/components/chat";
 import Navbar from "@/components/Navbar";
 
 const App = () => {
+  const [isChatOpen, setIsChatOpen] = useState(false);
+
   return (
     <AppProviders>
       <BrowserRouter>
@@ -16,6 +20,8 @@ const App = () => {
             <Route path="/history" element={<History />} />
           </Routes>
         </div>
+        <ChatButton onClick={() => setIsChatOpen(!isChatOpen)} />
+        {isChatOpen && <ChatBox onClose={() => setIsChatOpen(false)} />}
       </BrowserRouter>
     </AppProviders>
   );

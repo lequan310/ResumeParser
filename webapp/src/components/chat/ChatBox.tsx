@@ -1,42 +1,31 @@
 import { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
-import { ChatMessage } from "@/types/message";
+import useChatContext from "@/hooks/useChatContext";
 import chatService from "@/services/chatService";
 
 const ChatBox = ({ onClose }: { onClose: () => void }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const chatContext = useChatContext();
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState<ChatMessage[]>([
-    { text: "Welcome! How can I help you today?", isUser: false },
-  ]);
 
   const handleSend = async () => {
     const trimmedInput = input.trim();
     if (trimmedInput) {
-      setMessages([
-        ...messages,
-        { text: input, isUser: true, isTyping: false },
-      ]);
+      chatContext.addMessage({ text: input, isUser: true });
       setInput("");
-
-      // Add typing indicator
-      setMessages((prev) => [
-        ...prev,
-        { text: "", isUser: false, isTyping: true },
-      ]);
+      chatContext.addMessage({ text: "", isUser: false, isTyping: true });
 
       // Retrieve response from chat service
       let accumulatedText = "";
-      for await (const chunk of chatService.sendMessage(trimmedInput, "3")) {
+      for await (const chunk of chatService.sendMessage(
+        trimmedInput,
+        chatContext.chat.thread_id
+      )) {
         accumulatedText += chunk;
-        setMessages((prev) => {
-          const newMessages = [...prev];
-          newMessages[newMessages.length - 1] = {
-            text: accumulatedText,
-            isUser: false,
-            isTyping: false,
-          };
-          return newMessages;
+        chatContext.editLastMessage({
+          text: accumulatedText,
+          isUser: false,
+          isTyping: false,
         });
       }
     }
@@ -48,7 +37,7 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, [chatContext.chat.messages]);
 
   // Add typing indicator component
   const TypingIndicator = () => (
@@ -60,7 +49,7 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
   );
 
   return (
-    <div className="fixed bottom-24 right-12 w-108 h-[32rem] bg-gray-900 rounded-lg shadow-xl border border-gray-700">
+    <div className="fixed bottom-28 right-14 w-108 h-[32rem] bg-gray-900 rounded-lg shadow-xl border border-gray-700">
       <div className="flex justify-between items-center p-4 border-b border-gray-700">
         <h3 className="font-semibold text-gray-200">Chat</h3>
         <button onClick={onClose} className="text-gray-400 hover:text-gray-200">
@@ -70,7 +59,7 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
 
       <div className="p-4 h-[calc(100%-8rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700">
         <div className="flex flex-col space-y-3">
-          {messages.map((message, index) => (
+          {chatContext.chat.messages.map((message, index) => (
             <div
               key={index}
               className={`flex ${
