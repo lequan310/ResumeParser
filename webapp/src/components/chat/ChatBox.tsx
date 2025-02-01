@@ -16,7 +16,7 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
   };
 
   return (
-    <div className="fixed bottom-24 right-6 w-96 h-[32rem] bg-gray-900 rounded-lg shadow-xl border border-gray-700">
+    <div className="fixed bottom-24 right-12 w-96 h-[32rem] bg-gray-900 rounded-lg shadow-xl border border-gray-700">
       <div className="flex justify-between items-center p-4 border-b border-gray-700">
         <h3 className="font-semibold text-gray-200">Chat</h3>
         <button onClick={onClose} className="text-gray-400 hover:text-gray-200">
