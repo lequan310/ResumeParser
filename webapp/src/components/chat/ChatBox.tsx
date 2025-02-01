@@ -1,22 +1,66 @@
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import { ChatMessage } from "@/types/message";
+import chatService from "@/services/chatService";
 
 const ChatBox = ({ onClose }: { onClose: () => void }) => {
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const [input, setInput] = useState("");
   const [messages, setMessages] = useState<ChatMessage[]>([
     { text: "Welcome! How can I help you today?", isUser: false },
   ]);
-  const [input, setInput] = useState("");
 
-  const handleSend = () => {
-    if (input.trim()) {
-      setMessages([...messages, { text: input, isUser: true }]);
+  const handleSend = async () => {
+    const trimmedInput = input.trim();
+    if (trimmedInput) {
+      setMessages([
+        ...messages,
+        { text: input, isUser: true, isTyping: false },
+      ]);
       setInput("");
+
+      // Add typing indicator
+      setMessages((prev) => [
+        ...prev,
+        { text: "", isUser: false, isTyping: true },
+      ]);
+
+      // Retrieve response from chat service
+      let accumulatedText = "";
+      for await (const chunk of chatService.sendMessage(trimmedInput, "3")) {
+        accumulatedText += chunk;
+        setMessages((prev) => {
+          const newMessages = [...prev];
+          newMessages[newMessages.length - 1] = {
+            text: accumulatedText,
+            isUser: false,
+            isTyping: false,
+          };
+          return newMessages;
+        });
+      }
     }
   };
 
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  // Add typing indicator component
+  const TypingIndicator = () => (
+    <div className="flex space-x-2 p-2">
+      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.2s]" />
+      <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce [animation-delay:0.4s]" />
+    </div>
+  );
+
   return (
-    <div className="fixed bottom-24 right-12 w-96 h-[32rem] bg-gray-900 rounded-lg shadow-xl border border-gray-700">
+    <div className="fixed bottom-24 right-12 w-108 h-[32rem] bg-gray-900 rounded-lg shadow-xl border border-gray-700">
       <div className="flex justify-between items-center p-4 border-b border-gray-700">
         <h3 className="font-semibold text-gray-200">Chat</h3>
         <button onClick={onClose} className="text-gray-400 hover:text-gray-200">
@@ -26,22 +70,25 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
 
       <div className="p-4 h-[calc(100%-8rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-700">
         <div className="flex flex-col space-y-3">
-          {messages.map((msg, index) => (
+          {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${msg.isUser ? "justify-end" : "justify-start"}`}
+              className={`flex ${
+                message.isUser ? "justify-end" : "justify-start"
+              }`}
             >
               <div
-                className={`max-w-[80%] p-2.5 rounded-lg text-sm ${
-                  msg.isUser
-                    ? "bg-blue-600 text-white"
-                    : "bg-gray-800 text-gray-200"
+                className={`max-w-[80%] rounded-lg p-2.5 m-1 ${
+                  message.isUser ? "bg-blue-600" : "bg-gray-700"
                 }`}
               >
-                {msg.text}
+                {message.isTyping ? <TypingIndicator /> : message.text}
               </div>
             </div>
           ))}
+
+          {/* Scroll to bottom */}
+          <div ref={messagesEndRef} />
         </div>
       </div>
 

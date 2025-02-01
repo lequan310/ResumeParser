@@ -5,7 +5,7 @@ from core.parser.utils.parse_utils import convert_to_markdown
 router = APIRouter(prefix="/files", tags=["Files"])
 
 
-@router.post("/to_markdown")
+@router.post("/markdown")
 async def convert_markdown_single(file: UploadFile = File(...)):
     """Convert resume file to markdown.
 
@@ -28,7 +28,7 @@ async def convert_markdown_single(file: UploadFile = File(...)):
     return {"response": response}
 
 
-@router.post("/parse_resume")
+@router.post("/resume")
 async def parse_resume(file: UploadFile = File(...)):
     """Parse Resume file into structured data.
 

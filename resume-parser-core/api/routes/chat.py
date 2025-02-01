@@ -24,11 +24,12 @@ async def lifespan(app):
 router = APIRouter(prefix="/chat", tags=["Chat"], lifespan=lifespan)
 
 
-@router.post("/chat")
+@router.post("")
 async def chat(message: ChatMessage):
     return StreamingResponse(
         chat_graph.astream(
             input=message.message,
             config={"configurable": {"thread_id": message.thread_id}},
-        )
+        ),
+        media_type="text/plain",
     )
