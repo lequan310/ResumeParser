@@ -1,5 +1,4 @@
 from langgraph.graph import StateGraph, START, END
-from langgraph.pregel import RetryPolicy
 from core.parser.utils.state import InputState, State
 from core.parser.utils.nodes import (
     get_resume_markdown,
