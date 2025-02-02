@@ -1,6 +1,8 @@
 # Setup Instructions
 ## FE (Local)
-**Pre-requisites:** Have Node Installed and bun package manager installed. To install bun:
+**Pre-requisites:** 
+- Setup and run backend successfully.
+- Have Node Installed and bun package manager installed. To install bun:
 ```node
 npm install -g bun
 ```
