@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import usePDFContext from "@/hooks/usePDFContext";
 import useNavContext from "@/hooks/useNavContext";
+import useChatContext from "@/hooks/useChatContext";
 import MainLayout from "@/layouts/MainLayout";
 
 const ANALYZE_PATH = "/analyze";
@@ -13,6 +14,7 @@ const Upload = () => {
   const navigate = useNavigate();
   const pdfContext = usePDFContext();
   const navContext = useNavContext();
+  const chatContext = useChatContext();
 
   const handleFileSelect = useCallback(
     (file: File) => {
@@ -21,9 +23,10 @@ const Upload = () => {
         return;
       }
       pdfContext.setCurrentPdf(file);
+      chatContext.resetChat();
       navContext.setActiveTab("analyze");
     },
-    [pdfContext, navContext]
+    [pdfContext, chatContext, navContext]
   );
 
   useEffect(() => {
