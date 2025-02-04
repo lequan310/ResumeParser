@@ -26,10 +26,6 @@ axiosInstance.interceptors.response.use(
         return response;
     },
     (error) => {
-        console.log(error);
-        if (error.response) {
-            console.log(error.response.data);
-        }
         return Promise.reject(error);
     }
 );

@@ -5,37 +5,44 @@ export interface PersonalInformation {
     linkedin?: string;
 }
 
-export interface Education {
+export interface LatestEducation {
     degree: string;
     major: string;
     school: string;
     location: string;
-    startDate: string;
-    endDate: string;
+    start_date: string;
+    end_date: string;
 }
 
 export interface WorkExperience {
     title: string;
     company: string;
     location: string;
-    startDate: string;
-    endDate: string;
+    duration: YOE;
+    start_date: string;
+    end_date: string;
     description: string;
 }
 
 export interface Project {
     name: string;
     description: string;
-    startDate: string;
-    endDate: string;
+    start_date: string;
+    end_date: string;
     link?: string[];
 }
 
+export interface YOE {
+    year: number;
+    month: number;
+}
+
 export interface Resume {
-    personalInformation: PersonalInformation;
-    latestEducation: Education;
-    workExperiences?: WorkExperience[];
+    personal_information: PersonalInformation;
+    latest_education?: LatestEducation;
+    work_experiences?: WorkExperience[];
     projects?: Project[];
     skills: string[];
     certifications?: string[];
+    yoe: YOE;
 }

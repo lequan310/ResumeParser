@@ -7,12 +7,14 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const chatContext = useChatContext();
   const [input, setInput] = useState("");
+  const [userTurn, setUserTurn] = useState(true);
 
   const handleSend = async () => {
     const trimmedInput = input.trim();
-    if (trimmedInput) {
+    if (trimmedInput && userTurn) {
       chatContext.addMessage({ text: input, isUser: true });
       setInput("");
+      setUserTurn(false);
       chatContext.addMessage({ text: "", isUser: false, isTyping: true });
 
       // Retrieve response from chat service
@@ -28,6 +30,7 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
           isTyping: false,
         });
       }
+      setUserTurn(true);
     }
   };
 

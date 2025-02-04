@@ -3,10 +3,14 @@ import FileUpload from "@/components/FileUpload";
 import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import usePDFContext from "@/hooks/usePDFContext";
-import useNavContext from "@/hooks/useNavContext";
-import useChatContext from "@/hooks/useChatContext";
 import MainLayout from "@/layouts/MainLayout";
+import parseService from "@/services/parseService";
+import {
+  useChatContext,
+  useNavContext,
+  usePDFContext,
+  useResumeContext,
+} from "@/hooks";
 
 const ANALYZE_PATH = "/analyze";
 
@@ -15,6 +19,7 @@ const Upload = () => {
   const pdfContext = usePDFContext();
   const navContext = useNavContext();
   const chatContext = useChatContext();
+  const resumeContext = useResumeContext();
 
   const handleFileSelect = useCallback(
     (file: File) => {
@@ -22,11 +27,22 @@ const Upload = () => {
         toast.error("Only PDF files are supported");
         return;
       }
+
       pdfContext.setCurrentPdf(file);
       chatContext.resetChat();
       navContext.setActiveTab("analyze");
+      resumeContext.setResume(null);
+      resumeContext.setLoadingState("loading");
+
+      parseService
+        .parseResume(file)
+        .then(({ loadingState, markdown, object }) => {
+          resumeContext.setLoadingState(loadingState);
+          resumeContext.setMarkdown(markdown);
+          resumeContext.setResume(object);
+        });
     },
-    [pdfContext, chatContext, navContext]
+    [pdfContext, chatContext, navContext, resumeContext]
   );
 
   useEffect(() => {

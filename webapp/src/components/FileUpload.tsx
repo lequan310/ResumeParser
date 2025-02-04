@@ -1,5 +1,5 @@
 import { UploadIcon } from "lucide-react";
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 
 interface FileUploadProps {
   onFileSelect: (file: File) => void;

@@ -2,7 +2,9 @@ import { useState, ReactNode } from "react";
 import { PDFContext, PDFFile } from "@/context/PDFContext";
 import { NavContext, NavTab } from "@/context/NavContext";
 import { ChatContext, Chat } from "@/context/ChatContext";
+import { ResumeContext, LoadingState } from "@/context/ResumeContext";
 import { ChatMessage } from "@/types/message";
+import { Resume } from "@/types/resume";
 
 const NavContextProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTab] = useState<NavTab>("parse");
@@ -27,7 +29,6 @@ const PDFContextProvider = ({ children }: { children: ReactNode }) => {
 const ChatContextProvider = ({ children }: { children: ReactNode }) => {
   const generateThreadId = () => {
     const new_thread_id = crypto.randomUUID().toString();
-    console.log(new_thread_id);
     return new_thread_id;
   };
 
@@ -70,12 +71,35 @@ const ChatContextProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const ResumeContextProvider = ({ children }: { children: ReactNode }) => {
+  const [loadingState, setLoadingState] = useState<LoadingState>("success");
+  const [markdown, setMarkdown] = useState<string>("");
+  const [resume, setResume] = useState<Resume | null>(null);
+
+  return (
+    <ResumeContext.Provider
+      value={{
+        loadingState,
+        markdown,
+        resume,
+        setLoadingState,
+        setMarkdown,
+        setResume,
+      }}
+    >
+      {children}
+    </ResumeContext.Provider>
+  );
+};
+
 export const AppProviders = ({ children }: { children: ReactNode }) => {
   return (
-    <ChatContextProvider>
-      <NavContextProvider>
-        <PDFContextProvider>{children}</PDFContextProvider>
-      </NavContextProvider>
-    </ChatContextProvider>
+    <ResumeContextProvider>
+      <ChatContextProvider>
+        <NavContextProvider>
+          <PDFContextProvider>{children}</PDFContextProvider>
+        </NavContextProvider>
+      </ChatContextProvider>
+    </ResumeContextProvider>
   );
 };

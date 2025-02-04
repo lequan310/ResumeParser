@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Upload, Analyze, History } from "@/routes";
 import { AppProviders } from "@/app/provider";
 import { ChatButton, ChatBox } from "@/components/chat";
+import { ToastContainer } from "react-toastify";
 import Navbar from "@/components/Navbar";
 
 const App = () => {
@@ -10,6 +11,7 @@ const App = () => {
 
   return (
     <AppProviders>
+      <ToastContainer />
       <BrowserRouter>
         <Navbar />
         <div className="pt-16 w-screen">
