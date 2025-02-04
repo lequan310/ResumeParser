@@ -1,17 +1,31 @@
 import cvLogo from "/cv.webp";
 import { useNavigate } from "react-router-dom";
-import usePDFContext from "@/hooks/usePDFContext";
 import useNavContext from "@/hooks/useNavContext";
+import { NavTab } from "@/context/NavContext";
 
 const Navbar = () => {
-  const pdfContext = usePDFContext();
   const navContext = useNavContext();
   const navigate = useNavigate();
 
+  const navigateOnClick = (path: NavTab) => {
+    navContext.setActiveTab(path);
+    navigate(`/${path}`);
+  };
+
   const logoOnClick = () => {
-    pdfContext.setCurrentPdf(null);
-    navContext.setActiveTab("parse");
-    navigate("/");
+    navigateOnClick("parse");
+  };
+
+  const parseOnClick = () => {
+    navigateOnClick("parse");
+  };
+
+  const analyzeOnClick = () => {
+    navigateOnClick("analyze");
+  };
+
+  const historyOnClick = () => {
+    navigateOnClick("history");
   };
 
   return (
@@ -33,11 +47,7 @@ const Navbar = () => {
             className={`text-white cursor-pointer hover:text-blue-200 ${
               navContext.activeTab === "parse" ? "font-bold" : ""
             }`}
-            onClick={() => {
-              pdfContext.setCurrentPdf(null);
-              navContext.setActiveTab("parse");
-              navigate("/");
-            }}
+            onClick={parseOnClick}
           >
             Parse
           </span>
@@ -45,10 +55,7 @@ const Navbar = () => {
             className={`text-white cursor-pointer hover:text-blue-200 ${
               navContext.activeTab === "analyze" ? "font-bold" : ""
             }`}
-            onClick={() => {
-              navContext.setActiveTab("analyze");
-              navigate("/analyze");
-            }}
+            onClick={analyzeOnClick}
           >
             Analyze
           </span>
@@ -56,10 +63,7 @@ const Navbar = () => {
             className={`text-white cursor-pointer hover:text-blue-200 ${
               navContext.activeTab === "history" ? "font-bold" : ""
             }`}
-            onClick={() => {
-              navContext.setActiveTab("history");
-              navigate("/history");
-            }}
+            onClick={historyOnClick}
           >
             History
           </span>

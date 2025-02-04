@@ -30,7 +30,7 @@ const PDFViewer = () => {
       file={pdfContext.currentPdf}
       onLoadSuccess={onDocumentLoadSuccess}
       options={options}
-      className="flex flex-col items-center"
+      className="flex flex-col items-center text-xl"
     >
       {Array.from(new Array(numPages), (_el, index) => (
         <Page
