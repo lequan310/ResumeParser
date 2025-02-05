@@ -67,7 +67,7 @@ async def convert_markdown_to_resume(markdown: str) -> dict:
             model="gemini-exp-1206",
             contents=[
                 types.Part.from_text(
-                    f"Parse this resume markdown into structured format. Do not add or make up any information that is unavailable from the markdown.\n\n{markdown}"
+                    f"Parse this resume markdown into structured format. Do not add or make up any information that is unavailable from the markdown. For non-required fields, if the information is not available, you can leave them blank. The resume markdown is below:\n\n{markdown}"
                 ),
             ],
             config=types.GenerateContentConfig(
