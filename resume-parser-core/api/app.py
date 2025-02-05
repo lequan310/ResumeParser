@@ -9,7 +9,16 @@ logger = get_logger(__name__)
 
 
 # Create the FastAPI app
-app = FastAPI(title="Resume Parser API", version="0.1.0")
+if os.getenv("DEPLOY", "false") == "false":
+    app = FastAPI(title="Resume Parser API", version="0.1.0")
+else:
+    app = FastAPI(
+        title="Resume Parser API",
+        version="0.1.0",
+        docs_url=None,
+        redoc_url=None,
+        openapi_url=None,
+    )
 
 # Include the routers
 app.include_router(files_router)
@@ -30,7 +39,6 @@ async def health_check():
 
 # Add CORS middleware
 if os.getenv("DEPLOY", "false") == "false":
-    logger.info("Deployment false")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -39,7 +47,6 @@ if os.getenv("DEPLOY", "false") == "false":
         allow_headers=["*"],
     )
 else:
-    logger.info("Deployment true")
     app.add_middleware(
         CORSMiddleware,
         allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
