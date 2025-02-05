@@ -39,6 +39,7 @@ jobs:
           cache-to: type=gha,mode=min,scope=resume-parser-core
 
   deploy:
+    needs: build
     runs-on: ubuntu-latest
     steps:
       - name: Deploy to Render
