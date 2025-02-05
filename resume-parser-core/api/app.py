@@ -29,7 +29,7 @@ async def health_check():
 
 
 # Add CORS middleware
-if os.getenv("DEPLOY", False) == False:
+if os.getenv("DEPLOY", "false") == "false":
     app.add_middleware(
         CORSMiddleware,
         allow_origins=["*"],
@@ -40,8 +40,8 @@ if os.getenv("DEPLOY", False) == False:
 else:
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=["*"],
+        allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
         allow_credentials=True,
         allow_methods=["GET", "POST"],
-        allow_headers=["Authorization", "Content-Type", "X-Custom-Header"],
+        allow_headers=["*"],
     )
