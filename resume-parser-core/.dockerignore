@@ -179,3 +179,4 @@ README.md
 .env.example
 .python-version
 Dockerfile
+pytest.ini
