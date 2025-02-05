@@ -19,7 +19,7 @@ conda activate .venv/
 3. Install uv package manager and install the dependencies
 ```python
 pip install uv
-uv sync # Add additional options if needed, such as --inexact, --frozen
+uv sync # Add additional options if needed, such as --inexact, --frozen, --no-dev
 ```
 
 4. Create .env file in the folder following the [.env.example](.env.example)
