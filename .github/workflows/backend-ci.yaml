@@ -37,3 +37,12 @@ jobs:
           tags: ${{ env.REGISTRY }}/${{ secrets.NAMESPACE }}/resume-parser-core:latest
           cache-from: type=gha,scope=resume-parser-core
           cache-to: type=gha,mode=min,scope=resume-parser-core
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Render
+        env:
+          deploy_url: ${{ secrets.RENDER_DEPLOY_HOOK_URL }}
+        run: |
+          curl $deploy_url
