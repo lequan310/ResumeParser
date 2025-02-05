@@ -29,7 +29,7 @@ async def convert_to_markdown(file: UploadFile) -> str:
             model="gemini-2.0-flash-exp",
             contents=[
                 types.Part.from_bytes(data=content, mime_type=file.content_type),
-                types.Part.from_text(f"{user_message}"),
+                types.Part.from_text(text=user_message),
             ],
             config=types.GenerateContentConfig(
                 system_instruction="Follow user instruction carefully and answer with the provided schema.",
