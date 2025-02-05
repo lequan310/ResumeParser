@@ -4,7 +4,7 @@ on:
   push:
     branches: ["master"]
     paths:
-      - "resume-parser-core/*"
+      - "resume-parser-core/**"
       - ".github/workflows/backend-ci.yaml"
 
 jobs:
