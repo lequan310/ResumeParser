@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { Send } from "lucide-react";
 import useChatContext from "@/hooks/useChatContext";
 import chatService from "@/services/chatService";
+import Markdown from "react-markdown";
 
 const ChatBox = ({ onClose }: { onClose: () => void }) => {
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -74,7 +75,11 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
                   message.isUser ? "bg-blue-600" : "bg-gray-700"
                 }`}
               >
-                {message.isTyping ? <TypingIndicator /> : message.text}
+                {message.isTyping ? (
+                  <TypingIndicator />
+                ) : (
+                  <Markdown>{message.text}</Markdown>
+                )}
               </div>
             </div>
           ))}
