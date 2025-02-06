@@ -18,7 +18,7 @@ async def lifespan(app):
     yield
 
     # Application teardown
-    await reset_db()
+    # await reset_db()
     await pool.close()
     pool = None
 
