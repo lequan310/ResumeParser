@@ -25,16 +25,22 @@ app.include_router(files_router)
 app.include_router(chat_router)
 
 
+@app.get("/")
+async def root():
+    return {"message": "Hello World!"}
+
+
 @app.get("/health")
 async def health_check():
+    # Health check database connection
     async with get_connection_pool().connection() as conn:
         async with conn.cursor() as cur:
             await cur.execute("SELECT 1")  # Minimal query
             result = await cur.fetchone()
             if result == (1,):
-                return {"message": "OK"}
+                return {"status": "OK"}
             else:
-                return {"message": "Not OK"}
+                return {"status": "Not OK"}
 
 
 # Add CORS middleware
