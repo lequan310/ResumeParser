@@ -15,26 +15,20 @@ def get_links_from_pdf(file: bytes) -> list:
         list: list of hyperlinks
     """
     try:
-        # logger.debug("Getting hyperlinks from the PDF file...")
         all_links = []
 
         # Open the PDF file using PyMUPDF
-        doc = open(stream=file, filetype="pdf")
+        with open(stream=file, filetype="pdf") as doc:
+            # Get hyperlinks from the PDF file
+            if doc.has_links():
+                for page in doc:
+                    links = [link["uri"] for link in page.get_links()]
+                    all_links += links
 
-        # Get hyperlinks from the PDF file
-        if doc.has_links():
-            for page in doc:
-                links = [link["uri"] for link in page.get_links()]
-                all_links += links
-
-        # logger.debug(all_links)
         return all_links
     except Exception as e:
         logger.exception(e)
         return []
-    finally:
-        doc.close()
-        # logger.debug("Closed the PyMUPDF file.")
 
 
 def get_context(file: bytes) -> str:

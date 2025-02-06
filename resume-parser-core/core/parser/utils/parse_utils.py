@@ -16,19 +16,19 @@ async def convert_to_markdown(file: UploadFile) -> str:
     try:
         logger.info("Converting %s to markdown...", file.filename)
 
-        content = await file.read()
+        file_content = await file.read()
         user_message = "Identify whether the provided file is a resume or not. If it is a resume, convert this resume to markdown. Do not add or make up any information that is unavailable on the resume."
 
         if file.content_type == "application/pdf":
             # Get hyperlinks from the PDF file as additional context
-            context = get_context(content)
+            context = get_context(file_content)
             if context != "":
                 user_message += context
 
         response = await client.aio.models.generate_content(
             model="gemini-2.0-flash",
             contents=[
-                types.Part.from_bytes(data=content, mime_type=file.content_type),
+                types.Part.from_bytes(data=file_content, mime_type=file.content_type),
                 types.Part.from_text(text=user_message),
             ],
             config=types.GenerateContentConfig(
@@ -55,7 +55,6 @@ async def convert_to_markdown(file: UploadFile) -> str:
         raise HTTPException(status_code=500, detail="Error converting PDF to markdown.")
     finally:
         await file.close()
-        # logger.debug("Closed the file %s.", file.filename)
 
 
 @traceable(run_type="llm")

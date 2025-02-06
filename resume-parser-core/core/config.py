@@ -26,6 +26,7 @@ def get_logger(name: str | None = None) -> logging.Logger:
     return logger
 
 
+# Timed Rotating File Handlers for weekly log rotation. Use RotatingFileHandler for size based rotation.
 logging_config = {
     "version": 1,
     "disable_existing_loggers": False,
@@ -42,25 +43,41 @@ logging_config = {
             "formatter": "minimal",
             "level": logging.DEBUG,
         },
-        # Timed Rotating File Handlers for weekly log rotation. Use RotatingFileHandler for size based rotation.
+        # "info": {
+        #     "class": "logging.handlers.TimedRotatingFileHandler",
+        #     "filename": Path(LOGS_DIR, "info.log"),
+        #     "formatter": "detailed",
+        #     "level": logging.INFO,
+        #     "when": "W0",  # Rotate weekly on Monday
+        #     "interval": 1,  # Rotate every week
+        #     "backupCount": 4,
+        #     "filters": [select_info_only],
+        # },
+        # "error": {
+        #     "class": "logging.handlers.TimedRotatingFileHandler",
+        #     "filename": Path(LOGS_DIR, "error.log"),
+        #     "formatter": "detailed",
+        #     "level": logging.ERROR,
+        #     "when": "W0",  # Rotate weekly on Monday
+        #     "interval": 1,  # Rotate every week
+        #     "backupCount": 4,
+        # },
         "info": {
-            "class": "logging.handlers.TimedRotatingFileHandler",
+            "class": "logging.handlers.RotatingFileHandler",
             "filename": Path(LOGS_DIR, "info.log"),
             "formatter": "detailed",
             "level": logging.INFO,
-            "when": "W0",  # Rotate weekly on Monday
-            "interval": 1,  # Rotate every week
-            "backupCount": 4,
+            "backupCount": 10,
             "filters": [select_info_only],
+            "maxBytes": 1048576,  # 1 MB
         },
         "error": {
-            "class": "logging.handlers.TimedRotatingFileHandler",
+            "class": "logging.handlers.RotatingFileHandler",
             "filename": Path(LOGS_DIR, "error.log"),
             "formatter": "detailed",
             "level": logging.ERROR,
-            "when": "W0",  # Rotate weekly on Monday
-            "interval": 1,  # Rotate every week
-            "backupCount": 4,
+            "backupCount": 10,
+            "maxBytes": 1048576,  # 1 MB
         },
     },
     "loggers": {

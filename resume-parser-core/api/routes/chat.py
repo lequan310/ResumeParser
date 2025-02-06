@@ -20,6 +20,7 @@ async def lifespan(app):
     # Application teardown
     await reset_db()
     await pool.close()
+    pool = None
 
 
 router = APIRouter(prefix="/chat", tags=["Chat"], lifespan=lifespan)
