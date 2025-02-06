@@ -26,7 +26,7 @@ async def convert_to_markdown(file: UploadFile) -> str:
                 user_message += context
 
         response = await client.aio.models.generate_content(
-            model="gemini-2.0-flash-exp",
+            model="gemini-2.0-flash",
             contents=[
                 types.Part.from_bytes(data=content, mime_type=file.content_type),
                 types.Part.from_text(text=user_message),
@@ -62,14 +62,11 @@ async def convert_to_markdown(file: UploadFile) -> str:
 async def convert_markdown_to_resume(markdown: str) -> dict:
     try:
         logger.info("Converting markdown to resume...")
+        content = f"Parse this resume markdown into structured format. Do not add or make up any information that is unavailable from the markdown. For non-required fields, if the information is not available, you can leave them blank. The resume markdown is below:\n\n{markdown}"
 
         response = await client.aio.models.generate_content(
-            model="gemini-exp-1206",
-            contents=[
-                types.Part.from_text(
-                    f"Parse this resume markdown into structured format. Do not add or make up any information that is unavailable from the markdown. For non-required fields, if the information is not available, you can leave them blank. The resume markdown is below:\n\n{markdown}"
-                ),
-            ],
+            model="gemini-2.0-pro-exp-02-05",
+            contents=types.Part.from_text(text=content),
             config=types.GenerateContentConfig(
                 system_instruction="Follow user instruction carefully and answer with the provided schema.",
                 temperature=0,
