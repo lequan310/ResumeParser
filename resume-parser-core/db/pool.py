@@ -1,4 +1,5 @@
 from functools import lru_cache
+from psycopg import Error as PsycopgError
 from psycopg_pool import AsyncConnectionPool
 from core.config import os, get_logger
 
@@ -22,3 +23,26 @@ def get_connection_pool():
     except Exception as e:
         logger.exception(f"Error creating connection pool: {e}")
         raise
+
+
+async def reset_db():
+    async with get_connection_pool().connection() as conn:
+        # Disable autocommit to create a single transaction.
+        await conn.set_autocommit(False)
+        async with conn.cursor() as cur:
+            try:
+                # Last time I drop without truncating, it caused an error when starting the server again
+                await cur.execute(
+                    "TRUNCATE TABLE public.checkpoints, public.checkpoint_writes, public.checkpoint_migrations, public.checkpoint_blobs;"
+                )
+                await cur.execute(
+                    "DROP TABLE public.checkpoints, public.checkpoint_writes, public.checkpoint_migrations, public.checkpoint_blobs;"
+                )
+                await conn.commit()
+                logger.info("Database reset successfully.")
+            except PsycopgError as e:
+                # Rollback the transaction if any error occurred.
+                await conn.rollback()
+                logger.exception(f"Error resetting database: {e}")
+                # Consider re-raising the exception or logging it appropriately.
+                raise

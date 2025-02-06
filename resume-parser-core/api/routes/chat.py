@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from core.chat.graph import ChatGraph
 from api.models.chat_message import ChatMessage
-from db.pool import get_connection_pool
+from db.pool import get_connection_pool, reset_db
 
 chat_graph = ChatGraph()
 
@@ -18,6 +18,7 @@ async def lifespan(app):
     yield
 
     # Application teardown
+    await reset_db()
     await pool.close()
 
 
