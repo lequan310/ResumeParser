@@ -30,12 +30,9 @@ const Navbar = () => {
 
   return (
     <nav className="fixed top-0 w-full bg-navbar h-16 shadow-md z-50">
-      <div className="flex items-center h-full max-w-7xl mx-auto">
-        <div
-          className="flex items-center pl-2 cursor-pointer"
-          onClick={logoOnClick}
-        >
-          <img src={cvLogo} width={40} height={40} className="ml-4" />
+      <div className="flex items-center h-full max-w-7xl mx-auto pl-6.5">
+        <div className="flex items-center cursor-pointer" onClick={logoOnClick}>
+          <img src={cvLogo} width={40} height={40} />
           <div className="flex flex-col ml-2">
             <p className="text-white font-bold leading-none text-lg">Resume</p>
             <p className="text-white font-bold leading-none text-lg">Parser</p>
