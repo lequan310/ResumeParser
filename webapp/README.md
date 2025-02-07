@@ -20,7 +20,7 @@ bun install # Add --save-text-lockfile if using Bun version < 1.2.0
 
 3. Create .env file in the folder following the [.env.example](.env.example)
 ```dotenv
-PARSER_API=
+VITE_PARSER_API=
 ```
 
 4. Run the React application
