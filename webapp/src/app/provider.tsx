@@ -7,7 +7,7 @@ import { ChatMessage } from "@/types/message";
 import { Resume } from "@/types/resume";
 
 const NavContextProvider = ({ children }: { children: ReactNode }) => {
-  const [activeTab, setActiveTab] = useState<NavTab>("parse");
+  const [activeTab, setActiveTab] = useState<NavTab>("upload");
 
   return (
     <NavContext.Provider value={{ activeTab, setActiveTab }}>

@@ -1,33 +1,55 @@
-import { ReactNode, useState, useCallback, MouseEvent } from "react";
+import { ReactNode, useState, useCallback, MouseEvent, Fragment } from "react";
 import { GripVertical } from "lucide-react";
 
-const SplitLayout = ({
-  left,
-  right,
-}: {
-  left: ReactNode;
-  right: ReactNode;
-}) => {
-  const [isDragging, setIsDragging] = useState(false);
-  const [leftWidth, setLeftWidth] = useState(50);
+interface SplitLayoutProps {
+  sections: ReactNode[];
+}
 
-  const handleMouseDown = () => {
-    setIsDragging(true);
+const SplitLayout = ({ sections }: SplitLayoutProps) => {
+  const [isDragging, setIsDragging] = useState<number | null>(null);
+  const [widths, setWidths] = useState<number[]>(() => {
+    const equalWidth = 100 / sections.length;
+    return Array(sections.length).fill(equalWidth);
+  });
+
+  const handleMouseDown = (index: number) => {
+    setIsDragging(index);
   };
 
   const handleMouseMove = useCallback(
     (e: MouseEvent) => {
-      if (isDragging) {
+      if (isDragging !== null) {
         const container = e.currentTarget as HTMLElement;
-        const newWidth = (e.clientX / container.offsetWidth) * 100;
-        setLeftWidth(Math.min(Math.max(20, newWidth), 80)); // Min 20%, Max 80%
+        const containerWidth = container.offsetWidth;
+        const newPosition = (e.clientX / containerWidth) * 100;
+
+        setWidths((prevWidths) => {
+          const newWidths = [...prevWidths];
+          const minWidth = 20;
+
+          const delta =
+            newPosition -
+            newWidths.slice(0, isDragging + 1).reduce((a, b) => a + b, 0);
+
+          if (
+            newWidths[isDragging] + delta < minWidth ||
+            newWidths[isDragging + 1] - delta < minWidth
+          ) {
+            return prevWidths;
+          }
+
+          newWidths[isDragging] += delta;
+          newWidths[isDragging + 1] -= delta;
+
+          return newWidths;
+        });
       }
     },
     [isDragging]
   );
 
   const handleMouseUp = () => {
-    setIsDragging(false);
+    setIsDragging(null);
   };
 
   return (
@@ -37,24 +59,26 @@ const SplitLayout = ({
       onMouseUp={handleMouseUp}
       onMouseLeave={handleMouseUp}
     >
-      <div
-        className="overflow-auto hover:overflow-auto scrollbar-thin h-full p-4 min-w-fit"
-        style={{ width: `${leftWidth}%` }}
-      >
-        {left}
-      </div>
-      <div
-        className="w-1.5 bg-slate-700 cursor-col-resize hover:bg-slate-600 active:bg-slate-500 flex items-center justify-center transition-colors"
-        onMouseDown={handleMouseDown}
-      >
-        <GripVertical className="h-8 w-8 text-slate-400" />
-      </div>
-      <div
-        className="overflow-auto hover:overflow-auto scrollbar-thin h-full p-4"
-        style={{ width: `${100 - leftWidth}%` }}
-      >
-        {right}
-      </div>
+      {sections.map((section, index) => (
+        <Fragment key={`section-${index}`}>
+          <div
+            key={`section-${index}`}
+            className="overflow-auto hover:overflow-auto scrollbar-thin h-full p-4 min-w-fit"
+            style={{ width: `${widths[index]}%` }}
+          >
+            {section}
+          </div>
+          {index < sections.length - 1 && (
+            <div
+              key={`divider-${index}`}
+              className="w-1.5 bg-slate-700 cursor-col-resize hover:bg-slate-600 active:bg-slate-500 flex items-center justify-center transition-colors"
+              onMouseDown={() => handleMouseDown(index)}
+            >
+              <GripVertical className="h-8 w-8 text-slate-400" />
+            </div>
+          )}
+        </Fragment>
+      ))}
     </div>
   );
 };

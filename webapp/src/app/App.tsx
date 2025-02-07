@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { Upload, Analyze, History } from "@/routes";
+import { Upload, Analyze, Parse } from "@/routes";
 import { AppProviders } from "@/app/provider";
 import { ChatButton, ChatBox } from "@/components/chat";
 import { ToastContainer } from "react-toastify";
@@ -17,9 +17,9 @@ const App = () => {
         <div className="pt-16 w-screen">
           <Routes>
             <Route index element={<Upload />} />
-            <Route path="/parse" element={<Upload />} />
+            <Route path="/upload" element={<Upload />} />
+            <Route path="/parse" element={<Parse />} />
             <Route path="/analyze" element={<Analyze />} />
-            <Route path="/history" element={<History />} />
           </Routes>
         </div>
         <ChatButton onClick={() => setIsChatOpen(!isChatOpen)} />

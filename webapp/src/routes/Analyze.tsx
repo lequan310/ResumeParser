@@ -1,37 +1,31 @@
-import { useEffect } from "react";
-import { toast } from "react-toastify";
+import { useState } from "react";
 import PDFViewer from "@/components/PDFViewer";
 import SplitLayout from "@/layouts/SplitLayout";
-import ResumeForm from "@/components/resume-form/ResumeForm";
-import { LoadingState } from "@/context/ResumeContext";
-import { useResumeContext } from "@/hooks";
 import SpinLoader from "@/components/SpinLoader";
 
-const Analyze = () => {
-  const resumeContext = useResumeContext();
-
-  useEffect(() => {
-    if (resumeContext.loadingState === ("error" as LoadingState)) {
-      toast.error(resumeContext.markdown);
-      return;
-    }
-  }, [resumeContext]);
+const Parse = () => {
+  const [jobDescription, setJobDescription] = useState<string>("");
 
   return (
     <SplitLayout
-      left={<PDFViewer />}
-      right={
-        resumeContext.loadingState === ("loading" as LoadingState) ? (
-          <div className="flex flex-col items-center justify-center w-full h-full gap-4">
-            <SpinLoader size={100} />
-            <p className="text-xl animate-pulse">Parsing Resume...</p>
-          </div>
-        ) : (
-          <ResumeForm />
-        )
-      }
+      sections={[
+        <PDFViewer />,
+        <div className="flex flex-col w-full h-full p-4">
+          <h2 className="text-xl font-semibold mb-4">Job Description</h2>
+          <textarea
+            className="w-full h-full p-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-zinc-600 focus:border-zinc-600 resize-none"
+            placeholder="Paste the job description here..."
+            value={jobDescription}
+            onChange={(e) => setJobDescription(e.target.value)}
+          />
+        </div>,
+        <div className="flex flex-col items-center justify-center w-full h-full gap-4">
+          <SpinLoader size={100} />
+          <p className="text-xl animate-pulse">In development...</p>
+        </div>,
+      ]}
     />
   );
 };
 
-export default Analyze;
+export default Parse;

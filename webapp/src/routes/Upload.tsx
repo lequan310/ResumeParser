@@ -12,7 +12,7 @@ import {
   useResumeContext,
 } from "@/hooks";
 
-const ANALYZE_PATH = "/analyze";
+const PARSE_PATH = "/parse";
 
 const Upload = () => {
   const navigate = useNavigate();
@@ -30,7 +30,7 @@ const Upload = () => {
 
       pdfContext.setCurrentPdf(file);
       chatContext.resetChat();
-      navContext.setActiveTab("analyze");
+      navContext.setActiveTab("parse");
       resumeContext.setResume(null);
       resumeContext.setLoadingState("loading");
 
@@ -46,8 +46,8 @@ const Upload = () => {
   );
 
   useEffect(() => {
-    if (pdfContext.currentPdf && navContext.activeTab === "analyze") {
-      navigate(ANALYZE_PATH);
+    if (pdfContext.currentPdf && navContext.activeTab === "parse") {
+      navigate(PARSE_PATH);
     }
   }, [pdfContext, navContext, navigate]);
 

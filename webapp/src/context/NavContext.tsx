@@ -1,6 +1,6 @@
 import { createContext } from "react";
 
-export type NavTab = "parse" | "analyze" | "history";
+export type NavTab = "upload" | "parse" | "analyze";
 
 interface NavContextType {
   activeTab: NavTab;

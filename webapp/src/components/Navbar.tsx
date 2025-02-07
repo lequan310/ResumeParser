@@ -13,7 +13,11 @@ const Navbar = () => {
   };
 
   const logoOnClick = () => {
-    navigateOnClick("parse");
+    navigateOnClick("upload");
+  };
+
+  const uploadOnClick = () => {
+    navigateOnClick("upload");
   };
 
   const parseOnClick = () => {
@@ -22,10 +26,6 @@ const Navbar = () => {
 
   const analyzeOnClick = () => {
     navigateOnClick("analyze");
-  };
-
-  const historyOnClick = () => {
-    navigateOnClick("history");
   };
 
   return (
@@ -42,7 +42,15 @@ const Navbar = () => {
           </div>
         </div>
 
-        <div className="flex items-center ml-16 space-x-8">
+        <div className="flex items-center ml-16 space-x-12">
+          <span
+            className={`text-white cursor-pointer hover:text-blue-200 ${
+              navContext.activeTab === "upload" ? "font-bold" : ""
+            }`}
+            onClick={uploadOnClick}
+          >
+            Upload
+          </span>
           <span
             className={`text-white cursor-pointer hover:text-blue-200 ${
               navContext.activeTab === "parse" ? "font-bold" : ""
@@ -58,14 +66,6 @@ const Navbar = () => {
             onClick={analyzeOnClick}
           >
             Analyze
-          </span>
-          <span
-            className={`text-white cursor-pointer hover:text-blue-200 ${
-              navContext.activeTab === "history" ? "font-bold" : ""
-            }`}
-            onClick={historyOnClick}
-          >
-            History
           </span>
         </div>
       </div>
