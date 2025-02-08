@@ -186,7 +186,7 @@ const ResumeForm = () => {
             <FormInput
               placeholder="Python, JavaScript, React..."
               multiline
-              value={`${resume?.skills.join(", ")}`}
+              value={`${resume?.skills.join(", ") || ""}`}
             />
           </div>
         </section>
