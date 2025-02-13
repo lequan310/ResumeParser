@@ -10,6 +10,7 @@ import {
   useNavContext,
   usePDFContext,
   useResumeContext,
+  useNotificationContext,
 } from "@/hooks";
 
 const PARSE_PATH = "/parse";
@@ -20,6 +21,7 @@ const Upload = () => {
   const navContext = useNavContext();
   const chatContext = useChatContext();
   const resumeContext = useResumeContext();
+  const notificationContext = useNotificationContext();
 
   const handleFileSelect = useCallback(
     (file: File) => {
@@ -33,6 +35,7 @@ const Upload = () => {
       navContext.setActiveTab("parse");
       resumeContext.setResume(null);
       resumeContext.setLoadingState("loading");
+      notificationContext.setNotified(false);
 
       parseService
         .parseResume(file)
@@ -42,7 +45,7 @@ const Upload = () => {
           resumeContext.setResume(object);
         });
     },
-    [pdfContext, chatContext, navContext, resumeContext]
+    [pdfContext, chatContext, navContext, resumeContext, notificationContext]
   );
 
   useEffect(() => {

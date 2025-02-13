@@ -4,18 +4,34 @@ import PDFViewer from "@/components/PDFViewer";
 import SplitLayout from "@/layouts/SplitLayout";
 import ResumeForm from "@/components/resume-form/ResumeForm";
 import { LoadingState } from "@/context/ResumeContext";
-import { useResumeContext } from "@/hooks";
+import {
+  useResumeContext,
+  usePDFContext,
+  useNotificationContext,
+} from "@/hooks";
 import SpinLoader from "@/components/SpinLoader";
 
 const Parse = () => {
   const resumeContext = useResumeContext();
+  const pdfContext = usePDFContext();
+  const notificationContext = useNotificationContext();
 
   useEffect(() => {
-    if (resumeContext.loadingState === ("error" as LoadingState)) {
-      toast.error(resumeContext.markdown);
-      return;
+    if (pdfContext.currentPdf && !notificationContext.notified) {
+      if (resumeContext.loadingState === ("error" as LoadingState)) {
+        toast.error(resumeContext.markdown);
+        notificationContext.setNotified(true);
+      } else if (resumeContext.loadingState === ("success" as LoadingState)) {
+        toast.success(pdfContext.currentPdf.name + " parsed successfully.");
+        notificationContext.setNotified(true);
+      }
     }
-  }, [resumeContext]);
+  }, [
+    resumeContext.loadingState,
+    resumeContext.markdown,
+    pdfContext.currentPdf,
+    notificationContext,
+  ]);
 
   return (
     <SplitLayout

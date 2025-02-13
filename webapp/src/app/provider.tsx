@@ -2,6 +2,7 @@ import { useState, ReactNode } from "react";
 import { PDFContext, PDFFile } from "@/context/PDFContext";
 import { NavContext, NavTab } from "@/context/NavContext";
 import { ChatContext, Chat } from "@/context/ChatContext";
+import { NotificationContext } from "@/context/NotificationContext";
 import { ResumeContext, LoadingState } from "@/context/ResumeContext";
 import { ChatMessage } from "@/types/message";
 import { Resume } from "@/types/resume";
@@ -92,14 +93,26 @@ const ResumeContextProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const NotificationContextProvider = ({ children }: { children: ReactNode }) => {
+  const [notified, setNotified] = useState<boolean>(false);
+
+  return (
+    <NotificationContext.Provider value={{ notified, setNotified }}>
+      {children}
+    </NotificationContext.Provider>
+  );
+};
+
 export const AppProviders = ({ children }: { children: ReactNode }) => {
   return (
-    <ResumeContextProvider>
-      <ChatContextProvider>
-        <NavContextProvider>
-          <PDFContextProvider>{children}</PDFContextProvider>
-        </NavContextProvider>
-      </ChatContextProvider>
-    </ResumeContextProvider>
+    <NotificationContextProvider>
+      <ResumeContextProvider>
+        <ChatContextProvider>
+          <NavContextProvider>
+            <PDFContextProvider>{children}</PDFContextProvider>
+          </NavContextProvider>
+        </ChatContextProvider>
+      </ResumeContextProvider>
+    </NotificationContextProvider>
   );
 };
