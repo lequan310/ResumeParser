@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MainLayout from "@/layouts/MainLayout";
 import parseService from "@/services/parseService";
+import { LoadingState } from "@/context/ResumeContext";
 import {
   useChatContext,
   useNavContext,
   usePDFContext,
   useResumeContext,
-  useNotificationContext,
 } from "@/hooks";
 
 const PARSE_PATH = "/parse";
@@ -21,7 +21,6 @@ const Upload = () => {
   const navContext = useNavContext();
   const chatContext = useChatContext();
   const resumeContext = useResumeContext();
-  const notificationContext = useNotificationContext();
 
   const handleFileSelect = useCallback(
     (file: File) => {
@@ -35,17 +34,23 @@ const Upload = () => {
       navContext.setActiveTab("parse");
       resumeContext.setResume(null);
       resumeContext.setLoadingState("loading");
-      notificationContext.setNotified(false);
 
       parseService
         .parseResume(file)
-        .then(({ loadingState, markdown, object }) => {
-          resumeContext.setLoadingState(loadingState);
+        .then(({ markdown, object }) => {
+          resumeContext.setLoadingState("success" as LoadingState);
           resumeContext.setMarkdown(markdown);
           resumeContext.setResume(object);
+          toast.success(file.name + " parsed successfully.");
+        })
+        .catch((error) => {
+          resumeContext.setLoadingState("error" as LoadingState);
+          resumeContext.setMarkdown("");
+          resumeContext.setResume(null);
+          toast.error(error.response.data["detail"]);
         });
     },
-    [pdfContext, chatContext, navContext, resumeContext, notificationContext]
+    [pdfContext, chatContext, navContext, resumeContext]
   );
 
   useEffect(() => {
