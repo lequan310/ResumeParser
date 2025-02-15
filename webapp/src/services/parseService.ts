@@ -13,7 +13,7 @@ const parseService = {
 
         const responseObject = response.data["response"];
         const parsedResume: Resume = responseObject["output"];
-        const resumeMarkdown = responseObject["markdown"];
+        const resumeMarkdown = `${responseObject["markdown"]}\n\nAdditional Clarification:\n- Year of Experience: ${parsedResume["yoe"]["year"]} years ${parsedResume["yoe"]["month"]} months`;
 
         return {
             markdown: resumeMarkdown,

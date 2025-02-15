@@ -9,6 +9,7 @@ from core.config import get_logger
 from core.utils.pdf_utils import get_context
 
 logger = get_logger(__name__)
+resume_schema = pydantic_to_schema(Resume.model_json_schema())
 
 
 @traceable(run_type="llm")
@@ -73,7 +74,7 @@ async def convert_markdown_to_resume(markdown: str) -> dict:
                 top_p=0.95,
                 seed=0,
                 response_mime_type="application/json",
-                response_schema=pydantic_to_schema(Resume.model_json_schema()),
+                response_schema=resume_schema,
             ),
         )
 

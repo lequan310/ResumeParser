@@ -1,15 +1,16 @@
 from copy import deepcopy
-from core.models.resume import Resume
 
 
 def resolve_ref(ref: str, defs: dict) -> dict:
     """Resolve a $ref to its corresponding definition in defs."""
+
     ref_key = ref.split("/")[-1]
     return deepcopy(defs.get(ref_key, {}))
 
 
 def process_properties(properties: dict, defs: dict) -> dict:
     """Process properties of a schema. Currently process into Gemini-supported format."""
+
     required = set()
     for key, value in properties.items():
         if "title" in value:
@@ -21,14 +22,25 @@ def process_properties(properties: dict, defs: dict) -> dict:
             required.add(key)
 
         if "$ref" in value:
+            # Handle references
             ref_schema = resolve_ref(value["$ref"], defs)
-            props, reqs = process_properties(ref_schema.get("properties", {}), defs)
-            value = {
-                "type": "object",
-                "properties": props,
-                "required": reqs,
-            }
+
+            if "properties" in ref_schema:
+                # Handle nested objects
+                props, reqs = process_properties(ref_schema.get("properties", {}), defs)
+                value = {
+                    "type": "object",
+                    "properties": props,
+                    "required": reqs,
+                }
+            elif "enum" in ref_schema:
+                # Handle enums
+                value = {
+                    "type": "string",
+                    "enum": ref_schema["enum"],
+                }
         elif value.get("type") == "array":
+            # Handle arrays
             value["items"] = process_array(value["items"], defs)
         properties[key] = value
     return properties, list(required)
@@ -36,6 +48,7 @@ def process_properties(properties: dict, defs: dict) -> dict:
 
 def process_array(array: dict, defs: dict) -> dict:
     """Process items in an array schema."""
+
     if "anyOf" in array:
         array = array["anyOf"][0]
 
@@ -57,6 +70,7 @@ def process_array(array: dict, defs: dict) -> dict:
 
 def pydantic_to_schema(schema: dict) -> dict:
     """Process the main schema."""
+
     schema = deepcopy(schema)
     schema.pop("title", "")
     defs = schema.pop("$defs", {})

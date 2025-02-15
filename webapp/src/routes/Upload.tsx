@@ -33,6 +33,7 @@ const Upload = () => {
       chatContext.resetChat();
       navContext.setActiveTab("parse");
       resumeContext.setResume(null);
+      resumeContext.setMarkdown("");
       resumeContext.setLoadingState("loading");
 
       parseService

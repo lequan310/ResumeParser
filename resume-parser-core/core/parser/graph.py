@@ -34,6 +34,3 @@ class ParserGraph:
 
     async def ainvoke(self, input: dict):
         return await self._graph.ainvoke(input)
-
-
-parser_graph = ParserGraph()
