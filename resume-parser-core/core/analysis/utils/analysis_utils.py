@@ -67,7 +67,7 @@ async def get_job_requirements(job_desc: str) -> dict:
 async def get_analysis_result(resume: str, job_requirements: str) -> dict:
     try:
         user_message = (
-            "You are provided with a resume to compare against the job requirements. For each requirement, analyze carefully and then identify whether the resume meets the requirement or not."
+            "You are provided with a resume to compare against the job requirements. For each requirement, you must think and analyze carefully and then identify whether the resume meets the requirement or not."
             "\n\nThe result for each analysis can be:"
             "\n- 'YES' (the resume PARTIALLY OR FULLY meets the requirement)"
             "\n- 'UNCONFIRMED' (requires manual human screening to confirm)"
@@ -82,7 +82,7 @@ async def get_analysis_result(resume: str, job_requirements: str) -> dict:
             model="gemini-2.0-pro-exp-02-05",
             contents=types.Part.from_text(text=user_message),
             config=types.GenerateContentConfig(
-                system_instruction=f"Follow user instruction carefully and answer with the provided schema. Note that the current date is {formatted_date} for reference purpose.",
+                system_instruction=f"You are a recruitment assistant. Follow user instruction carefully and answer with the provided schema. Note that the current date is {formatted_date} for reference purpose.",
                 temperature=0,
                 max_output_tokens=8192,
                 top_p=0.95,

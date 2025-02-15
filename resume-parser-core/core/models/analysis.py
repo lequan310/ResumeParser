@@ -10,7 +10,7 @@ class IsPresent(Enum):
 
 class RequirementCheck(BaseModel):
     requirement: str
-    analysis: str  # Help model to perform reasoning before making a decision
+    thinking: str  # Help model to perform reasoning before making a decision
     is_present: IsPresent
 
 

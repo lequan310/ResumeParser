@@ -106,6 +106,11 @@ logging_config = {
             "level": logging.DEBUG,
             "propagate": False,
         },
+        "core.analysis.analysis_utils": {
+            "handlers": ["console", "info", "error"],
+            "level": logging.DEBUG,
+            "propagate": False,
+        },
         "db.pool": {
             "handlers": ["console", "info", "error"],
             "level": logging.DEBUG,
