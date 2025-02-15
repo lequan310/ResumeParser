@@ -13,12 +13,12 @@ async def lifespan(app):
     # Application setup
     pool = get_connection_pool()
     await pool.open()
+    await reset_db()
     await chat_graph.setup()
 
     yield
 
     # Application teardown
-    # await reset_db()
     await pool.close()
     pool = None
 

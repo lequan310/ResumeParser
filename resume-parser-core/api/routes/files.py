@@ -1,7 +1,8 @@
 from fastapi import APIRouter, File, UploadFile, HTTPException
-from core.parser.graph import parser_graph
+from core.parser.graph import ParserGraph
 from core.parser.utils.parse_utils import convert_to_markdown
 
+parser_graph = ParserGraph()
 router = APIRouter(prefix="/files", tags=["Files"])
 
 
