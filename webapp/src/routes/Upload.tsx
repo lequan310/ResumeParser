@@ -5,12 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import MainLayout from "@/layouts/MainLayout";
 import parseService from "@/services/parseService";
-import { LoadingState } from "@/context/ResumeContext";
+import { LoadingState } from "@/types/state";
 import {
   useChatContext,
   useNavContext,
   usePDFContext,
   useResumeContext,
+  useAnalysisContext,
 } from "@/hooks";
 
 const PARSE_PATH = "/parse";
@@ -21,6 +22,7 @@ const Upload = () => {
   const navContext = useNavContext();
   const chatContext = useChatContext();
   const resumeContext = useResumeContext();
+  const analysisContext = useAnalysisContext();
 
   const handleFileSelect = useCallback(
     (file: File) => {
@@ -29,29 +31,37 @@ const Upload = () => {
         return;
       }
 
+      // Update context states
       pdfContext.setCurrentPdf(file);
       chatContext.resetChat();
       navContext.setActiveTab("parse");
-      resumeContext.setResume(null);
-      resumeContext.setMarkdown("");
-      resumeContext.setLoadingState("loading");
 
+      // Set parsing state to loading
+      resumeContext.setParsingState("loading" as LoadingState);
+      resumeContext.setMarkdown("");
+      resumeContext.setResume(null);
+
+      // Set analysis state to idle
+      analysisContext.setAnalysis(null);
+      analysisContext.setAnalysisState("idle" as LoadingState);
+
+      // Parse the resume
       parseService
         .parseResume(file)
         .then(({ markdown, object }) => {
-          resumeContext.setLoadingState("success" as LoadingState);
+          resumeContext.setParsingState("success" as LoadingState);
           resumeContext.setMarkdown(markdown);
           resumeContext.setResume(object);
           toast.success(file.name + " parsed successfully.");
         })
         .catch((error) => {
-          resumeContext.setLoadingState("error" as LoadingState);
+          resumeContext.setParsingState("error" as LoadingState);
           resumeContext.setMarkdown("");
           resumeContext.setResume(null);
           toast.error(error.response.data["detail"]);
         });
     },
-    [pdfContext, chatContext, navContext, resumeContext]
+    [pdfContext, chatContext, navContext, resumeContext, analysisContext]
   );
 
   useEffect(() => {

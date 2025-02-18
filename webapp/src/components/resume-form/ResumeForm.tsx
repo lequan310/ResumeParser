@@ -78,8 +78,10 @@ const ResumeForm = () => {
         {/* Work Experience */}
         <section>
           <h2 className="text-2xl font-bold mb-4 text-gray-100">
-            Work Experiences ({resume?.yoe.year || 0} Years{" "}
-            {resume?.yoe.month || 0} Months)
+            Work Experiences
+            {resume?.yoe
+              ? ` (${resume.yoe.year} Years ${resume.yoe.month} Months)`
+              : ""}
           </h2>
           <div className="grid gap-10">
             {resume?.work_experiences?.map((workExperience, index) => (
