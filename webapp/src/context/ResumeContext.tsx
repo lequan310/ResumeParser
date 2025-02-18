@@ -1,13 +1,12 @@
 import { createContext } from "react";
 import { Resume } from "@/types/resume";
-
-export type LoadingState = "loading" | "error" | "success";
+import { LoadingState } from "@/types/state";
 
 export interface ResumeContextType {
-  loadingState: LoadingState;
+  parsingState: LoadingState;
   markdown: string;
   resume: Resume | null;
-  setLoadingState: (state: LoadingState) => void;
+  setParsingState: (state: LoadingState) => void;
   setMarkdown: (markdown: string) => void;
   setResume: (resume: Resume | null) => void;
 }

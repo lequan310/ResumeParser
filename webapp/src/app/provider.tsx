@@ -2,9 +2,12 @@ import { useState, ReactNode } from "react";
 import { PDFContext, PDFFile } from "@/context/PDFContext";
 import { NavContext, NavTab } from "@/context/NavContext";
 import { ChatContext, Chat } from "@/context/ChatContext";
-import { ResumeContext, LoadingState } from "@/context/ResumeContext";
+import { ResumeContext } from "@/context/ResumeContext";
+import { AnalysisContext } from "@/context/AnalysisContext";
 import { ChatMessage } from "@/types/message";
 import { Resume } from "@/types/resume";
+import { Analysis } from "@/types/analysis";
+import { LoadingState } from "@/types/state";
 
 const NavContextProvider = ({ children }: { children: ReactNode }) => {
   const [activeTab, setActiveTab] = useState<NavTab>("upload");
@@ -72,17 +75,17 @@ const ChatContextProvider = ({ children }: { children: ReactNode }) => {
 };
 
 const ResumeContextProvider = ({ children }: { children: ReactNode }) => {
-  const [loadingState, setLoadingState] = useState<LoadingState>("success");
+  const [parsingState, setParsingState] = useState<LoadingState>("idle");
   const [markdown, setMarkdown] = useState<string>("");
   const [resume, setResume] = useState<Resume | null>(null);
 
   return (
     <ResumeContext.Provider
       value={{
-        loadingState,
+        parsingState,
         markdown,
         resume,
-        setLoadingState,
+        setParsingState,
         setMarkdown,
         setResume,
       }}
@@ -92,14 +95,29 @@ const ResumeContextProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+const AnalysisContextProvider = ({ children }: { children: ReactNode }) => {
+  const [analysisState, setAnalysisState] = useState<LoadingState>("idle");
+  const [analysis, setAnalysis] = useState<Analysis | null>(null);
+
+  return (
+    <AnalysisContext.Provider
+      value={{ analysisState, analysis, setAnalysisState, setAnalysis }}
+    >
+      {children}
+    </AnalysisContext.Provider>
+  );
+};
+
 export const AppProviders = ({ children }: { children: ReactNode }) => {
   return (
     <ResumeContextProvider>
-      <ChatContextProvider>
-        <NavContextProvider>
-          <PDFContextProvider>{children}</PDFContextProvider>
-        </NavContextProvider>
-      </ChatContextProvider>
+      <AnalysisContextProvider>
+        <ChatContextProvider>
+          <NavContextProvider>
+            <PDFContextProvider>{children}</PDFContextProvider>
+          </NavContextProvider>
+        </ChatContextProvider>
+      </AnalysisContextProvider>
     </ResumeContextProvider>
   );
 };
