@@ -67,12 +67,12 @@ const AnalysisField = ({
           rows={1}
           onInput={(e) => adjustHeight(e.target as HTMLTextAreaElement)}
         />
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 pb-1.25">
+        <div className="absolute right-2 top-1/2 -translate-y-1/2 text-zinc-400 pb-1.25">
           <div className="relative group">
             {icon}
             {/* Tooltip */}
             {tooltip ? (
-              <span className="absolute -bottom-8 -translate-x-3/5 whitespace-nowrap rounded-md bg-zinc-700 px-2 py-1 text-xs text-zinc-100 opacity-0 transition-opacity group-hover:opacity-100">
+              <span className="absolute -bottom-8 -translate-x-1/2 whitespace-nowrap rounded-md bg-zinc-700 px-2 py-1 text-xs text-zinc-100 opacity-0 transition-opacity group-hover:opacity-100">
                 {tooltip}
               </span>
             ) : null}
