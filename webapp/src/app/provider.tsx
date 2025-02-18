@@ -96,12 +96,20 @@ const ResumeContextProvider = ({ children }: { children: ReactNode }) => {
 };
 
 const AnalysisContextProvider = ({ children }: { children: ReactNode }) => {
+  const [job_desc, setJobDesc] = useState<string>("");
   const [analysisState, setAnalysisState] = useState<LoadingState>("idle");
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
 
   return (
     <AnalysisContext.Provider
-      value={{ analysisState, analysis, setAnalysisState, setAnalysis }}
+      value={{
+        job_desc,
+        analysisState,
+        analysis,
+        setJobDesc,
+        setAnalysisState,
+        setAnalysis,
+      }}
     >
       {children}
     </AnalysisContext.Provider>

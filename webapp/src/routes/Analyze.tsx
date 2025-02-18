@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { toast } from "react-toastify";
 import SplitLayout from "@/layouts/SplitLayout";
 import SpinLoader from "@/components/SpinLoader";
@@ -9,20 +9,19 @@ import { LoadingState } from "@/types/state";
 import analysisService from "@/services/analysisService";
 
 const Analyze = () => {
-  const [jobDescription, setJobDescription] = useState<string>("");
   const resumeContext = useResumeContext();
   const analysisContext = useAnalysisContext();
 
   const analyzeResume = useCallback(() => {
     const resume_markdown = resumeContext.markdown.trim();
-    const job_description = jobDescription.trim();
+    const job_desc = analysisContext.job_desc.trim();
 
     if (!resume_markdown) {
       toast.error("Please upload a resume and wait for parsing to be done.");
       return;
     }
 
-    if (!job_description) {
+    if (!job_desc) {
       toast.error("Please enter a job description to analyze the resume.");
       return;
     }
@@ -37,7 +36,7 @@ const Analyze = () => {
 
     // Call the analysis service
     analysisService
-      .analyzeResume(resumeContext.markdown, jobDescription)
+      .analyzeResume(resumeContext.markdown, job_desc)
       .then((response) => {
         analysisContext.setAnalysis(response);
         analysisContext.setAnalysisState("success" as LoadingState);
@@ -48,7 +47,7 @@ const Analyze = () => {
         analysisContext.setAnalysisState("error" as LoadingState);
         toast.error(error.response.data["detail"]);
       });
-  }, [analysisContext, resumeContext, jobDescription]);
+  }, [analysisContext, resumeContext]);
 
   return (
     <SplitLayout
@@ -66,8 +65,8 @@ const Analyze = () => {
           <textarea
             className="h-full p-2 border rounded-md focus:outline-none focus:ring-1 focus:ring-zinc-600 focus:border-zinc-600 resize-none"
             placeholder="Paste the job description here..."
-            value={jobDescription}
-            onChange={(e) => setJobDescription(e.target.value)}
+            value={analysisContext.job_desc}
+            onChange={(e) => analysisContext.setJobDesc(e.target.value)}
           />
         </div>,
         analysisContext.analysisState === ("loading" as LoadingState) ? (
