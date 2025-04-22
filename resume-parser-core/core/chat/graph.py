@@ -1,6 +1,6 @@
 from langchain_core.runnables import RunnableConfig
 from langchain_core.messages import HumanMessage, AIMessageChunk
-from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
+from langgraph.checkpoint.postgres.aio import AsyncShallowPostgresSaver
 from langgraph.graph import StateGraph, START, END
 from db.pool import get_connection_pool
 from core.config import get_logger
@@ -26,7 +26,7 @@ class ChatGraph:
             graph = StateGraph(state_schema=State)
 
             # Create checkpointer
-            checkpointer = AsyncPostgresSaver(get_connection_pool())
+            checkpointer = AsyncShallowPostgresSaver(get_connection_pool())
             await checkpointer.setup()
 
             # Add nodes
