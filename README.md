@@ -2,6 +2,7 @@
 Resume Parser is a web application that showcases AI's capabilities in hiring and career consultancy. The 2 main features are Resume Parsing and AI Career Consultant Chatbot:
 - Resume Parsing: User upload a resume file in .pdf format, and the AI will extract the information from the resume and output in a structured format.
 - AI Career Consultant Chatbot: A ReAct agent that can chat and memorize conversation. Each time a resume is uploaded, a new conversation will be started.
+- Resume Analyzer: User upload job description after parsing their resume to compare the resume against the job description.
 
 # Setup Instructions
 ## Docker
