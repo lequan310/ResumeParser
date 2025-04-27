@@ -1,4 +1,3 @@
-import pytest
 from copy import deepcopy  # Import deepcopy for test data modification if needed
 from core.utils.pydantic_to_schema import (
     resolve_ref,

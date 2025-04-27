@@ -1,12 +1,8 @@
-import os
 import logging
 import sys
 from logging import config
 from pathlib import Path
 from rich.logging import RichHandler
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).parent.parent.absolute()
 LOGS_DIR = Path(BASE_DIR, "logs")

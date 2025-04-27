@@ -1,13 +1,15 @@
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from api.routes.files import router as files_router
 from api.routes.chat import router as chat_router
 from api.routes.analysis import router as analysis_router
-from core.config import os, get_logger
+from core.config import get_logger
 from db.pool import get_connection_pool
 
+load_dotenv()
 logger = get_logger(__name__)
-
 
 # Create the FastAPI app
 if os.getenv("DEPLOY", "false") == "false":

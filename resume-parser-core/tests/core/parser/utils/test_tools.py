@@ -1,5 +1,4 @@
 import pytest
-from datetime import datetime
 from freezegun import freeze_time
 from core.parser.utils.tools import get_position_duration
 
