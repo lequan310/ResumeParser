@@ -62,7 +62,6 @@ SCHEMA_EXAMPLE = {
 
 
 class TestPydanticToSchema:
-
     # --- Tests for resolve_ref ---
     def test_resolve_ref_found(self):
         ref = "#/$defs/Address"
