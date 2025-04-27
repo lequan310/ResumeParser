@@ -1,12 +1,8 @@
-import os
 import logging
 import sys
 from logging import config
 from pathlib import Path
 from rich.logging import RichHandler
-from dotenv import load_dotenv
-
-load_dotenv()
 
 BASE_DIR = Path(__file__).parent.parent.absolute()
 LOGS_DIR = Path(BASE_DIR, "logs")
@@ -81,38 +77,18 @@ logging_config = {
         },
     },
     "loggers": {
-        "core.llm": {
-            "handlers": ["console", "info", "error"],
+        "core": {
+            "handlers": ["info", "error"],
             "level": logging.DEBUG,
             "propagate": False,
         },
-        "core.parser.utils.parse_utils": {
-            "handlers": ["console", "info", "error"],
+        "db": {
+            "handlers": ["info", "error"],
             "level": logging.DEBUG,
             "propagate": False,
         },
-        "core.utils.pdf_utils": {
-            "handlers": ["console", "info", "error"],
-            "level": logging.DEBUG,
-            "propagate": False,
-        },
-        "core.chat.utils.nodes": {
-            "handlers": ["console", "info", "error"],
-            "level": logging.DEBUG,
-            "propagate": False,
-        },
-        "core.chat.graph": {
-            "handlers": ["console", "info", "error"],
-            "level": logging.DEBUG,
-            "propagate": False,
-        },
-        "core.analysis.analysis_utils": {
-            "handlers": ["console", "info", "error"],
-            "level": logging.DEBUG,
-            "propagate": False,
-        },
-        "db.pool": {
-            "handlers": ["console", "info", "error"],
+        "api": {
+            "handlers": ["info", "error"],
             "level": logging.DEBUG,
             "propagate": False,
         },

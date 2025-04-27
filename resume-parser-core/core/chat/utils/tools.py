@@ -1,6 +1,6 @@
+import os
 from tavily import AsyncTavilyClient
 from langchain_core.tools import tool
-from core.config import os
 
 tavily_client = AsyncTavilyClient(api_key=os.getenv("TAVILY_API_KEY"))
 

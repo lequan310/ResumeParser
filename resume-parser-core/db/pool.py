@@ -1,7 +1,8 @@
+import os
 from functools import lru_cache
 from psycopg import Error as PsycopgError
 from psycopg_pool import AsyncConnectionPool
-from core.config import os, get_logger
+from core.config import get_logger
 
 logger = get_logger(__name__)
 
