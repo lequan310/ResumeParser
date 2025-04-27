@@ -10,6 +10,18 @@ const ChatBox = ({ onClose }: { onClose: () => void }) => {
   const [input, setInput] = useState("");
   const [userTurn, setUserTurn] = useState(true);
 
+  useEffect(() => {
+    const handleDisconnect = async () => {
+      await chatService.disconnect(chatContext.chat.thread_id);
+    };
+
+    window.addEventListener("pagehide", handleDisconnect);
+
+    return () => {
+      window.removeEventListener("pagehide", handleDisconnect);
+    };
+  }, [chatContext.chat.thread_id]);
+
   const handleSend = async () => {
     const trimmedInput = input.trim();
     if (trimmedInput && userTurn) {
