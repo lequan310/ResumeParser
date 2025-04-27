@@ -59,6 +59,6 @@ else:
         CORSMiddleware,
         allow_origins=os.getenv("ALLOWED_ORIGINS", "*").split(","),
         allow_credentials=True,
-        allow_methods=["GET", "POST"],
+        allow_methods=["GET", "POST", "DELETE"],
         allow_headers=["*"],
     )
