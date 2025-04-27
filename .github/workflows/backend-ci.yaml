@@ -35,7 +35,6 @@ jobs:
   test:
     needs: ruff
     runs-on: ubuntu-latest
-    environment: development
     defaults:
       run:
         working-directory: ./resume-parser-core
