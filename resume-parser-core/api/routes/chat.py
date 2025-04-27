@@ -35,3 +35,10 @@ async def chat(message: ChatMessage):
         ),
         media_type="text/plain",
     )
+
+
+@router.delete("/disconnect/{thread_id}")
+async def disconnect(thread_id: str):
+    """Disconnect the chat session"""
+    await chat_graph.cleanup(thread_id=thread_id)
+    return {"message": "Cleaned up the chat session."}

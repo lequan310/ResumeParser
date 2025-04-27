@@ -26,8 +26,8 @@ class ChatGraph:
             graph = StateGraph(state_schema=State)
 
             # Create checkpointer
-            checkpointer = AsyncShallowPostgresSaver(get_connection_pool())
-            await checkpointer.setup()
+            self._checkpointer = AsyncShallowPostgresSaver(get_connection_pool())
+            await self._checkpointer.setup()
 
             # Add nodes
             graph.add_node("tool_node", tool_node)
@@ -45,7 +45,7 @@ class ChatGraph:
             graph.add_edge("tool_node", "call_model")
 
             # Compile the graph
-            self._chatflow = graph.compile(checkpointer=checkpointer)
+            self._chatflow = graph.compile(checkpointer=self._checkpointer)
         except Exception as e:
             logger.exception(e)
             raise RuntimeError(f"Failed to setup chat graph: {str(e)}")
@@ -73,3 +73,8 @@ class ChatGraph:
                 and metadata["langgraph_node"] == "call_model"
             ):
                 yield msg.content
+
+    async def cleanup(self, thread_id: str):
+        """Cleanup the checkpoints from the thread id"""
+        if self._checkpointer is not None:
+            await self._checkpointer.adelete_thread(thread_id=thread_id)
