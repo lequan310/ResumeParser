@@ -81,38 +81,18 @@ logging_config = {
         },
     },
     "loggers": {
-        "core.llm": {
-            "handlers": ["console", "info", "error"],
+        "core": {
+            "handlers": ["info", "error"],
             "level": logging.DEBUG,
             "propagate": False,
         },
-        "core.parser.utils.parse_utils": {
-            "handlers": ["console", "info", "error"],
+        "db": {
+            "handlers": ["info", "error"],
             "level": logging.DEBUG,
             "propagate": False,
         },
-        "core.utils.pdf_utils": {
-            "handlers": ["console", "info", "error"],
-            "level": logging.DEBUG,
-            "propagate": False,
-        },
-        "core.chat.utils.nodes": {
-            "handlers": ["console", "info", "error"],
-            "level": logging.DEBUG,
-            "propagate": False,
-        },
-        "core.chat.graph": {
-            "handlers": ["console", "info", "error"],
-            "level": logging.DEBUG,
-            "propagate": False,
-        },
-        "core.analysis.analysis_utils": {
-            "handlers": ["console", "info", "error"],
-            "level": logging.DEBUG,
-            "propagate": False,
-        },
-        "db.pool": {
-            "handlers": ["console", "info", "error"],
+        "api": {
+            "handlers": ["info", "error"],
             "level": logging.DEBUG,
             "propagate": False,
         },
