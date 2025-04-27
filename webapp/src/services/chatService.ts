@@ -32,6 +32,14 @@ const chatService = {
             reader.releaseLock(); // Important: Release the reader when done or on error
         }
     },
+
+    disconnect: async function (thread_id: string = "0") {
+        try {
+            await axiosInstance.delete("/chat/disconnect/" + thread_id);
+        } catch (error) {
+            console.error("Error disconnecting:", error);
+        }
+    },
 };
 
 export default chatService;
