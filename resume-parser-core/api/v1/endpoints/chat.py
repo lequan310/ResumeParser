@@ -3,7 +3,7 @@ from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from services.chat_service import ChatService
 from schemas.chat_schema import ChatMessageModel, ChatCleanupModel
-from core.db import get_connection_pool, reset_db
+from core.db import get_connection_pool
 
 chat_service = ChatService()
 
@@ -13,7 +13,6 @@ async def lifespan(app):
     # Application setup
     pool = get_connection_pool()
     await pool.open()
-    # await reset_db()
     await chat_service.setup()
 
     yield
