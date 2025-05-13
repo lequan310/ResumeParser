@@ -48,4 +48,4 @@ EXPOSE 8000
 ENV PATH="/app/.venv/bin:$PATH"
 
 # Command to run the application
-ENTRYPOINT ["uvicorn","api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+ENTRYPOINT ["uvicorn","app:app", "--host", "0.0.0.0", "--port", "8000"]

@@ -35,7 +35,7 @@ const chatService = {
 
     disconnect: async function (thread_id: string = "0") {
         try {
-            await axiosInstance.delete("/chat/disconnect/" + thread_id);
+            await axiosInstance.delete("/api/v1/chat/disconnect/" + thread_id);
         } catch (error) {
             console.error("Error disconnecting:", error);
         }

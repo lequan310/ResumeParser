@@ -8,7 +8,10 @@ const analysisService = {
             job_desc: job_desc,
         };
 
-        const response = await axiosInstance.post("/analysis", requestBody);
+        const response = await axiosInstance.post(
+            "/api/v1/analysis",
+            requestBody
+        );
         const responseObject: Analysis = response.data["response"];
         return responseObject;
     },
