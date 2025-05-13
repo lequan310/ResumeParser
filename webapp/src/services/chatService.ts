@@ -7,7 +7,7 @@ const chatService = {
             thread_id: thread_id,
         };
 
-        const response = await axiosInstance.post("/chat", sentMessage, {
+        const response = await axiosInstance.post("/api/v1/chat", sentMessage, {
             adapter: "fetch",
             responseType: "stream",
         });
