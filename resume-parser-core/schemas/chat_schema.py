@@ -11,9 +11,9 @@ class ChatMessageModel(BaseRequestModel):
     thread_id: str = Field(..., description="The ID of the chat thread.")
 
 
-class ChatCleanupModel(BaseRequestModel):
+class ChatCleanupResponseModel(BaseResponseModel):
     """
-    Model for chat cleanup requests.
+    Model for chat cleanup response.
     """
 
     thread_id: str = Field(..., description="The ID of the chat thread.")

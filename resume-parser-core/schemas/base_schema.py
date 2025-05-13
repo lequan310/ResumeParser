@@ -1,6 +1,13 @@
 from pydantic import BaseModel
 
 
+def alias_generator(field_name: str) -> str:
+    """
+    Convert a field name to snake_case.
+    """
+    return field_name.lower()
+
+
 class BaseRequestModel(BaseModel):
     """
     Base class for all request models.
@@ -14,7 +21,7 @@ class BaseRequestModel(BaseModel):
         extra = "forbid"
 
         # Use snake_case for field names in the model
-        alias_generator = lambda x: x.lower()  # Convert to snake_case
+        alias_generator = alias_generator
 
 
 class BaseResponseModel(BaseModel):
@@ -30,4 +37,4 @@ class BaseResponseModel(BaseModel):
         extra = "forbid"
 
         # Use snake_case for field names in the model
-        alias_generator = lambda x: x.lower()  # Convert to snake_case
+        alias_generator = alias_generator

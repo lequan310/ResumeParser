@@ -1,10 +1,8 @@
 import logging
 import logging.config
-import sys
 from pathlib import Path
 from utils.logger_utils import select_info_only
 from pydantic_settings import BaseSettings
-from pydantic import computed_field, Field
 from dotenv import load_dotenv
 
 load_dotenv()

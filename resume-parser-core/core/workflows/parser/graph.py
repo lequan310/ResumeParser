@@ -1,6 +1,5 @@
 from langgraph.graph import StateGraph, START, END
 from core.workflows.parser.utils.state import InputState, State
-from core.workflows.models.resume import Resume
 from core.workflows.parser.utils.nodes import (
     get_resume_markdown,
     get_resume_structured,

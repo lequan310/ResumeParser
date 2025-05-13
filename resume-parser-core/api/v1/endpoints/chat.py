@@ -2,7 +2,7 @@ from contextlib import asynccontextmanager
 from fastapi import APIRouter
 from fastapi.responses import StreamingResponse
 from services.chat_service import ChatService
-from schemas.chat_schema import ChatMessageModel, ChatCleanupModel
+from schemas.chat_schema import ChatMessageModel, ChatCleanupResponseModel
 from core.db import get_connection_pool
 
 chat_service = ChatService()
@@ -35,12 +35,12 @@ async def chat(message: ChatMessageModel):
     )
 
 
-@router.delete("/disconnect/{thread_id}", response_model=ChatCleanupModel)
+@router.delete("/disconnect/{thread_id}", response_model=ChatCleanupResponseModel)
 async def disconnect(thread_id: str):
     """Disconnect the chat session"""
     await chat_service.clear_history(thread_id=thread_id)
 
-    response = ChatCleanupModel(
+    response = ChatCleanupResponseModel(
         thread_id=thread_id,
         message=f"Disconnected the chat session with thread id {thread_id}.",
     )
