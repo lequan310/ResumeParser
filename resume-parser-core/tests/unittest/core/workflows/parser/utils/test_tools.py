@@ -1,5 +1,6 @@
 import pytest
 from freezegun import freeze_time
+
 from core.workflows.parser.utils.tools import get_position_duration
 
 

@@ -1,4 +1,5 @@
 from typing import TypedDict
+
 from core.workflows.models.analysis import AnalysisResult
 
 

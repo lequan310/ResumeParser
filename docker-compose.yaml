@@ -1,14 +1,39 @@
 services:
+  db:
+    image: postgres:latest
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: resume_parser
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
   api:
     image: resume-parser-api
     build: 
       context: ./resume-parser-core
       dockerfile: Dockerfile
     env_file:
-      - ./resume-parser-core/.env
+      - ./resume-parser-core/.docker.env
     ports:
       - "8000:8000"
     restart: always
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; r = requests.get('http://localhost:8000/health'); exit(0 if r.status_code == 200 else 1)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   webapp:
     image: resume-parser-webapp
@@ -16,7 +41,14 @@ services:
       context: ./webapp
       dockerfile: Dockerfile
     env_file:
-      - ./webapp/.env
+      - ./webapp/.docker.env
     ports:
       - "80:80"
     restart: always
+    depends_on:
+      api:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+    driver: local

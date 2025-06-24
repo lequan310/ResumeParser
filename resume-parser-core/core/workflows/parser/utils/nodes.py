@@ -1,9 +1,9 @@
+from core.workflows.parser.utils.parse_utils import (
+    convert_markdown_to_resume,
+    convert_to_markdown,
+)
 from core.workflows.parser.utils.state import InputState, State
 from core.workflows.parser.utils.tools import get_position_duration
-from core.workflows.parser.utils.parse_utils import (
-    convert_to_markdown,
-    convert_markdown_to_resume,
-)
 
 
 async def get_resume_markdown(state: InputState):

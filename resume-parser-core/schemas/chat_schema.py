@@ -1,5 +1,6 @@
-from schemas.base_schema import BaseRequestModel, BaseResponseModel
 from pydantic import Field
+
+from schemas.base_schema import BaseRequestModel, BaseResponseModel
 
 
 class ChatMessageModel(BaseRequestModel):

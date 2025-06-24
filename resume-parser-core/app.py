@@ -1,27 +1,81 @@
-import os
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from core.config import settings
+
 from api.v1.routes import routers as v1_routers
+from core.config import settings
+from core.container import Container
 from core.db import get_connection_pool
 from utils.logger_utils import get_logger
 
 logger = get_logger(__name__)
+container = Container()
 
-# Create the FastAPI app
-if settings.ENV != "prod":
-    app = FastAPI(title="Resume Parser API", version="0.1.0")
-else:
-    app = FastAPI(
-        title="Resume Parser API",
-        version="0.1.0",
-        docs_url=None,
-        redoc_url=None,
-        openapi_url=None,
-    )
 
-# Include the routers
-app.include_router(v1_routers)
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    """
+    Application lifespan manager for startup and shutdown events.
+    """
+    # Startup
+    logger.info("Starting up the application...")
+
+    # Initialize database connection pool
+    pool = get_connection_pool()
+    await pool.open()
+
+    # Setup chat service
+    chat_service = container.chat_service()
+    await chat_service.setup()
+
+    logger.info("Application startup complete.")
+
+    yield
+
+    # Shutdown
+    logger.info("Shutting down the application...")
+
+    # Unwire dependencies
+    container.unwire()
+
+    # Close database connection pool
+    await pool.close()
+
+    logger.info("Application shutdown complete.")
+
+
+def create_fastapi_app() -> FastAPI:
+    """
+    Create and configure the FastAPI application.
+
+    Returns:
+        FastAPI: Configured FastAPI application instance.
+    """
+
+    # Create the FastAPI app with lifespan
+    if settings.ENV != "prod":
+        app = FastAPI(title="Resume Parser API", version="0.1.0", lifespan=lifespan)
+    else:
+        app = FastAPI(
+            title="Resume Parser API",
+            version="0.1.0",
+            docs_url=None,
+            redoc_url=None,
+            openapi_url=None,
+            lifespan=lifespan,
+        )
+
+    # Set the application container
+    app.container = container
+
+    # Include the routers
+    app.include_router(v1_routers)
+
+    return app
+
+
+app = create_fastapi_app()
 
 
 @app.get("/")
@@ -55,7 +109,7 @@ if __name__ == "__main__":
     import uvicorn
 
     uvicorn.run(
-        "api.app:app",
-        host=os.getenv("API_HOST", "0.0.0.0"),
-        port=int(os.getenv("API_PORT", 8000)),
+        "app:app",
+        host=settings.API_HOST,
+        port=settings.API_PORT,
     )

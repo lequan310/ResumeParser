@@ -1,7 +1,8 @@
 from fastapi import UploadFile
-from services.base_service import BaseService
+
 from core.workflows.parser.graph import ParserGraph
 from core.workflows.parser.utils.parse_utils import convert_to_markdown
+from services.base_service import BaseService
 
 
 class FileService(BaseService):

@@ -1,7 +1,9 @@
-import os
 from functools import lru_cache
+
 from psycopg import Error as PsycopgError
 from psycopg_pool import AsyncConnectionPool
+
+from core.config import settings
 from utils.logger_utils import get_logger
 
 logger = get_logger(__name__)
@@ -11,7 +13,7 @@ logger = get_logger(__name__)
 def get_connection_pool():
     try:
         pool = AsyncConnectionPool(
-            conninfo=f"postgresql://{os.environ['POSTGRES_USER']}:{os.environ['POSTGRES_PASSWORD']}@{os.environ['POSTGRES_HOST']}:{os.environ['POSTGRES_PORT']}/{os.environ['POSTGRES_DB']}",
+            conninfo=f"postgresql://{settings.POSTGRES_USER}:{settings.POSTGRES_PASSWORD}@{settings.POSTGRES_HOST}:{settings.POSTGRES_PORT}/{settings.POSTGRES_DB}",
             max_size=20,
             kwargs={
                 "autocommit": True,

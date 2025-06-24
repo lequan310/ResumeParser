@@ -19,6 +19,7 @@ dependencies = [
     "langgraph-checkpoint-postgres>=2.0.13",
     "tavily-python>=0.5.0",
     "pydantic-settings>=2.9.1",
+    "dependency-injector>=4.42.0",
 ]
 
 [dependency-groups]
