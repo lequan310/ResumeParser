@@ -1,14 +1,18 @@
 import logging
 import logging.config
 from pathlib import Path
-from utils.logger_utils import select_info_only
-from pydantic_settings import BaseSettings
+
 from dotenv import load_dotenv
+from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from utils.logger_utils import select_info_only
 
 load_dotenv()
 
 
 class Settings(BaseSettings):
+    model_config = SettingsConfigDict(env_file=".env", extra="ignore")
+
     BASE_DIR: Path = Path(__file__).parent.parent.absolute()
     LOGS_DIR: Path = Path(BASE_DIR, "logs")
 
@@ -18,6 +22,26 @@ class Settings(BaseSettings):
 
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
+
+    # LLM API Keys
+    GOOGLE_API_KEY: str = ""
+    GROQ_API_KEY: str = ""
+
+    # Database
+    POSTGRES_HOST: str = "localhost"
+    POSTGRES_PORT: int = 5432
+    POSTGRES_USER: str = ""
+    POSTGRES_PASSWORD: str = ""
+    POSTGRES_DB: str = ""
+
+    # Tools
+    TAVILY_API_KEY: str = ""
+
+    # LangSmith Tracing (Optional)
+    LANGCHAIN_TRACING_V2: str = "false"
+    LANGCHAIN_ENDPOINT: str = ""
+    LANGCHAIN_API_KEY: str = ""
+    LANGCHAIN_PROJECT: str = ""
 
     # Timed Rotating File Handlers for weekly log rotation. Use RotatingFileHandler for size based rotation.
     LOGGING_CONFIG: dict = {

@@ -1,18 +1,26 @@
 from typing import Annotated
-from fastapi import APIRouter, File, UploadFile, HTTPException
+
+from dependency_injector.wiring import Provide, inject
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+
+from core.container import Container
 from schemas.file_schema import MarkdownResponseModel, ParseResponseModel
 from services.file_service import FileService
 
-file_service = FileService()
 router = APIRouter(prefix="/files", tags=["Files"])
 
 
 @router.post("/markdown", response_model=MarkdownResponseModel)
-async def convert_markdown_single(file: Annotated[UploadFile, File()]):
+@inject
+async def convert_markdown_single(
+    file: Annotated[UploadFile, File()],
+    file_service: FileService = Depends(Provide[Container.file_service]),
+):
     """Convert resume file to markdown.
 
     Args:
         file (UploadFile): Resume file. Defaults to File(...).
+        file_service (FileService): Injected file service dependency.
 
     Raises:
         HTTPException: Support only PDF and Image files
@@ -31,11 +39,16 @@ async def convert_markdown_single(file: Annotated[UploadFile, File()]):
 
 
 @router.post("/resume", response_model=ParseResponseModel)
-async def parse_resume(file: Annotated[UploadFile, File()]):
+@inject
+async def parse_resume(
+    file: Annotated[UploadFile, File()],
+    file_service: Annotated[FileService, Depends(Provide[Container.file_service])],
+):
     """Parse Resume file into structured data.
 
     Args:
         file (UploadFile): Resume file. Defaults to File(...).
+        file_service (FileService): Injected file service dependency.
 
     Raises:
         HTTPException: Support only PDF and Image files

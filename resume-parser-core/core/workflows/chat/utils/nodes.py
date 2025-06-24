@@ -1,17 +1,19 @@
 import json
+
 from langchain_core.messages import (
-    SystemMessage,
-    ToolMessage,
-    RemoveMessage,
     AIMessage,
     HumanMessage,
+    RemoveMessage,
+    SystemMessage,
+    ToolMessage,
 )
 from langchain_core.runnables import RunnableConfig
-from core.workflows.llm import gemini_llm
+
 from core.workflows.agent import deepseek_agent
-from core.workflows.chat.utils.tools import tools_by_name
-from core.workflows.chat.utils.state import State
 from core.workflows.chat.utils.prompts import DEEPSEEK_SYSTEM_MESSAGE
+from core.workflows.chat.utils.state import State
+from core.workflows.chat.utils.tools import tools_by_name
+from core.workflows.llm import gemini_llm
 from utils.logger_utils import get_logger
 
 MAX_CONVERSATION_LENGTH = 10

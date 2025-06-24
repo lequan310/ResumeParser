@@ -1,9 +1,10 @@
-from langgraph.graph import StateGraph, START, END
-from core.workflows.analysis.utils.state import State, OutputState, InputState
+from langgraph.graph import END, START, StateGraph
+
 from core.workflows.analysis.utils.nodes import (
-    extract_job_requirements,
     compare_resume_jd,
+    extract_job_requirements,
 )
+from core.workflows.analysis.utils.state import InputState, OutputState, State
 
 
 class AnalysisGraph:

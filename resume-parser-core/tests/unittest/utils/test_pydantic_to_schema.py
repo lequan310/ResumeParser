@@ -1,9 +1,10 @@
 from copy import deepcopy  # Import deepcopy for test data modification if needed
+
 from utils.pydantic_to_schema import (
-    resolve_ref,
     process_array,
     process_properties,
     pydantic_to_schema,
+    resolve_ref,
 )
 
 # --- Test Data (can be defined outside or inside the class) ---

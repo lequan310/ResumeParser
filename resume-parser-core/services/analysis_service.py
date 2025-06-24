@@ -1,5 +1,5 @@
-from services.base_service import BaseService
 from core.workflows.analysis.graph import AnalysisGraph
+from services.base_service import BaseService
 
 
 class AnalysisService(BaseService):

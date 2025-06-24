@@ -1,6 +1,7 @@
-from schemas.base_schema import BaseRequestModel, BaseResponseModel
 from pydantic import Field
+
 from core.workflows.models.analysis import AnalysisResult
+from schemas.base_schema import BaseRequestModel, BaseResponseModel
 
 
 class AnalysisRequestModel(BaseRequestModel):

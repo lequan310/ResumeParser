@@ -1,7 +1,9 @@
 import logging
+
 import pytest
 from rich.logging import RichHandler
-from utils.logger_utils import select_info_only, get_logger
+
+from utils.logger_utils import get_logger, select_info_only
 
 
 @pytest.fixture

@@ -1,10 +1,11 @@
-from langgraph.graph import StateGraph, START, END
-from core.workflows.parser.utils.state import InputState, State
+from langgraph.graph import END, START, StateGraph
+
 from core.workflows.parser.utils.nodes import (
     get_resume_markdown,
     get_resume_structured,
     postprocess_resume_output,
 )
+from core.workflows.parser.utils.state import InputState, State
 
 
 class ParserGraph:

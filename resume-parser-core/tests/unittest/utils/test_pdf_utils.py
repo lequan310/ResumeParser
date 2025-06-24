@@ -1,6 +1,8 @@
+from unittest.mock import MagicMock, patch
+
 import pytest
-from unittest.mock import patch, MagicMock
-from utils.pdf_utils import get_links_from_pdf, get_context
+
+from utils.pdf_utils import get_context, get_links_from_pdf
 
 # Mock data for pymupdf responses
 MOCK_LINK_PAGE_1 = [{"uri": "http://example.com"}, {"uri": "http://test.org"}]

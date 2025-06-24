@@ -1,5 +1,5 @@
-from services.base_service import BaseService
 from core.workflows.chat.graph import ChatGraph
+from services.base_service import BaseService
 
 
 class ChatService(BaseService):

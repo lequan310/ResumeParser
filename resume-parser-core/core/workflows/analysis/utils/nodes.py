@@ -1,9 +1,10 @@
 from fastapi import HTTPException
-from core.workflows.analysis.utils.state import State, InputState
+
 from core.workflows.analysis.utils.analysis_utils import (
-    get_job_requirements,
     get_analysis_result,
+    get_job_requirements,
 )
+from core.workflows.analysis.utils.state import InputState, State
 
 
 async def extract_job_requirements(state: InputState):

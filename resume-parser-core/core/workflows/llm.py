@@ -1,19 +1,20 @@
-import os
 from google import genai
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_groq import ChatGroq
-from utils.logger_utils import get_logger
 
+from core.config import settings
+from utils.logger_utils import get_logger
 
 logger = get_logger(__name__)
 
 try:
     # Create the GenAI client for resume parsing
-    client = genai.client.Client(api_key=os.getenv("GOOGLE_API_KEY"))
+    client = genai.client.Client(api_key=settings.GOOGLE_API_KEY)
 
     # LLMs for chatbot
     deepseek_llm = ChatGroq(
         model="deepseek-r1-distill-llama-70b",
+        api_key=settings.GROQ_API_KEY,
         temperature=0,
         max_tokens=None,
         timeout=None,
@@ -23,6 +24,7 @@ try:
 
     llama_llm = ChatGroq(
         model="llama-3.3-70b-versatile",
+        api_key=settings.GROQ_API_KEY,
         temperature=0,
         max_tokens=None,
         timeout=None,
@@ -32,6 +34,7 @@ try:
 
     gemini_llm = ChatGoogleGenerativeAI(
         model="gemini-2.0-flash",
+        api_key=settings.GOOGLE_API_KEY,
         temperature=0,
         max_tokens=None,
         timeout=None,
