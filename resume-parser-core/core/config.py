@@ -65,17 +65,17 @@ class Settings(BaseSettings):
                 "filename": Path(LOGS_DIR, "info.log"),
                 "formatter": "detailed",
                 "level": logging.INFO,
-                "backupCount": 10,
+                "backupCount": 1,
                 "filters": [select_info_only],
-                "maxBytes": 1048576,  # 1 MB
+                "maxBytes": 102400,  # 100 KB
             },
             "error": {
                 "class": "logging.handlers.RotatingFileHandler",
                 "filename": Path(LOGS_DIR, "error.log"),
                 "formatter": "detailed",
                 "level": logging.ERROR,
-                "backupCount": 10,
-                "maxBytes": 1048576,  # 1 MB
+                "backupCount": 1,
+                "maxBytes": 102400,  # 100 KB
             },
         },
         "loggers": {
