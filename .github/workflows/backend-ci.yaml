@@ -99,7 +99,7 @@ jobs:
     runs-on: ubuntu-latest
     environment: development
     steps:
-      - name: Deploy image to Northflank
+      - name: Deploy to Northflank
         uses: northflank/deploy-to-northflank@v1
         with:
           northflank-api-key: ${{ secrets.NF_API_KEY }}
