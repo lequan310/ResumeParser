@@ -12,6 +12,12 @@ on:
       - "resume-parser-core/**"
       - ".github/workflows/backend-ci.yaml"
 
+env:
+  REGISTRY: ${{ vars.REGISTRY }}
+  NF_PROJECT_ID: ${{ vars.NF_PROJECT_ID }}
+  NF_SERVICE_ID: ${{ vars.NF_SERVICE_ID }}
+  CREDENTIALS_ID: ${{ vars.CREDENTIALS_ID }}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
@@ -60,8 +66,6 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     environment: development
-    env:
-      REGISTRY: ${{ vars.REGISTRY }}
 
     steps:
       - name: Checkout the code
@@ -93,6 +97,7 @@ jobs:
     needs: build
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
+    environment: development
     steps:
       - name: Deploy image to Northflank
         uses: northflank/deploy-to-northflank@v1
