@@ -54,17 +54,7 @@ def create_fastapi_app() -> FastAPI:
     """
 
     # Create the FastAPI app with lifespan
-    if settings.ENV != "prod":
-        app = FastAPI(title="Resume Parser API", version="0.1.0", lifespan=lifespan)
-    else:
-        app = FastAPI(
-            title="Resume Parser API",
-            version="0.1.0",
-            docs_url=None,
-            redoc_url=None,
-            openapi_url=None,
-            lifespan=lifespan,
-        )
+    app = FastAPI(title="Resume Parser API", version="0.1.0", lifespan=lifespan)
 
     # Set the application container
     app.container = container
