@@ -33,7 +33,7 @@ jobs:
           ruff format
 
   test:
-    needs: ruff
+    needs: lint
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -94,7 +94,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     steps:
-      - name: Deploy to Northflank
+      - name: Deploy image to Northflank
         uses: northflank/deploy-to-northflank@v1
         with:
           northflank-api-key: ${{ secrets.NF_API_KEY }}
