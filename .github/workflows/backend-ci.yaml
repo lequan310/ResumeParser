@@ -106,3 +106,4 @@ jobs:
           project-id: ${{ env.NF_PROJECT_ID }}
           service-id: ${{ env.NF_SERVICE_ID }}
           image-path: ${{ env.REGISTRY }}/${{ secrets.NAMESPACE }}/resume-parser-core:latest
+          credentials-id: ${{ env.CREDENTIALS_ID }}
