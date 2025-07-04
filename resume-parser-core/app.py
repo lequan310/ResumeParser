@@ -72,6 +72,15 @@ def create_fastapi_app() -> FastAPI:
     # Include the routers
     app.include_router(v1_routers)
 
+    # Add CORS middleware
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=settings.ALLOWED_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
     return app
 
 
@@ -94,15 +103,6 @@ async def health_check():
                 return {"status": "OK"}
             else:
                 return {"status": "Not OK"}
-
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=settings.ALLOWED_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
 
 
 if __name__ == "__main__":
