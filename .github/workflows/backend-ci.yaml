@@ -33,7 +33,7 @@ jobs:
           ruff format
 
   test:
-    needs: ruff
+    needs: lint
     runs-on: ubuntu-latest
     defaults:
       run:
