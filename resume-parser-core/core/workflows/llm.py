@@ -13,7 +13,7 @@ try:
 
     # LLMs for chatbot
     deepseek_llm = ChatGroq(
-        model="deepseek-r1-distill-llama-70b",
+        model="openai/gpt-oss-120b",
         api_key=settings.GROQ_API_KEY,
         temperature=0,
         max_tokens=None,

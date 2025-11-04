@@ -4,6 +4,7 @@ from core.workflows.parser.utils.parse_utils import (
 )
 from core.workflows.parser.utils.state import InputState, State
 from core.workflows.parser.utils.tools import get_position_duration
+from core.workflows.models.resume import Resume
 
 
 async def get_resume_markdown(state: InputState):
@@ -14,7 +15,8 @@ async def get_resume_markdown(state: InputState):
 
 
 async def get_resume_structured(state: State):
-    resume = await convert_markdown_to_resume(state["markdown"])
+    resume: Resume = await convert_markdown_to_resume(state["markdown"])
+    resume = resume.model_dump()
 
     return {"output": resume}
 

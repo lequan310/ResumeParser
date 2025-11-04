@@ -10,7 +10,7 @@ from utils.pdf_utils import get_context
 from utils.pydantic_to_schema import pydantic_to_schema
 
 logger = get_logger(__name__)
-resume_schema = pydantic_to_schema(Resume.model_json_schema())
+# resume_schema = pydantic_to_schema(Resume.model_json_schema())
 
 
 @traceable(run_type="llm")
@@ -75,7 +75,7 @@ async def convert_markdown_to_resume(markdown: str) -> dict:
                 top_p=0.95,
                 seed=0,
                 response_mime_type="application/json",
-                response_schema=resume_schema,
+                response_schema=Resume,
             ),
         )
 
