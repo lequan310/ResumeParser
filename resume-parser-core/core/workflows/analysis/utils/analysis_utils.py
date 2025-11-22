@@ -11,8 +11,8 @@ from utils.logger_utils import get_logger
 from utils.pydantic_to_schema import pydantic_to_schema
 
 logger = get_logger(__name__)
-job_desc_schema = pydantic_to_schema(JobDesc.model_json_schema())
-analysis_result_schema = pydantic_to_schema(AnalysisResult.model_json_schema())
+# job_desc_schema = pydantic_to_schema(JobDesc.model_json_schema())
+# analysis_result_schema = pydantic_to_schema(AnalysisResult.model_json_schema())
 
 
 def format_md_string(string: str) -> str:
@@ -46,17 +46,18 @@ async def get_job_requirements(job_desc: str) -> dict:
                 top_p=0.95,
                 seed=0,
                 response_mime_type="application/json",
-                response_schema=job_desc_schema,
+                response_schema=JobDesc,
             ),
         )
 
-        if response.parsed["is_job_desc"] is False:
+        jod_desc = response.parsed.model_dump()
+        if jod_desc["is_job_desc"] is False:
             raise HTTPException(
                 status_code=422, detail="The provided text is not a job description."
             )
 
         logger.info("Successfully extract job requirements.")
-        return response.parsed
+        return jod_desc
     except HTTPException as e:
         raise e
     except Exception as e:
@@ -91,12 +92,12 @@ async def get_analysis_result(resume: str, job_requirements: str) -> dict:
                 top_p=0.95,
                 seed=0,
                 response_mime_type="application/json",
-                response_schema=analysis_result_schema,
+                response_schema=AnalysisResult,
             ),
         )
 
         logger.info("Successfully analysed the resume against job description.")
-        return response.parsed
+        return response.parsed.model_dump()
     except Exception as e:
         logger.exception(e)
         raise HTTPException(status_code=500, detail="Error extracting analysis result.")
