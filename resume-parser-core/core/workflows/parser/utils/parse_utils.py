@@ -7,7 +7,8 @@ from core.workflows.models.response import Response
 from core.workflows.models.resume import Resume
 from utils.logger_utils import get_logger
 from utils.pdf_utils import get_context
-from utils.pydantic_to_schema import pydantic_to_schema
+
+# from utils.pydantic_to_schema import pydantic_to_schema
 
 logger = get_logger(__name__)
 # resume_schema = pydantic_to_schema(Resume.model_json_schema())
@@ -40,16 +41,17 @@ async def convert_to_markdown(file: UploadFile) -> str:
                 top_p=0.95,
                 seed=0,
                 response_mime_type="application/json",
-                response_schema=pydantic_to_schema(Response.model_json_schema()),
+                response_schema=Response,
             ),
         )
 
-        if response.parsed["is_resume"] is False:
+        resp = response.parsed.model_dump()
+        if resp["is_resume"] is False:
             logger.info("The file %s is not a resume.", file.filename)
             raise HTTPException(status_code=422, detail="The file is not a resume.")
 
         logger.info("Successfully converted %s to markdown.", file.filename)
-        return response.parsed["resume_markdown"]
+        return resp["resume_markdown"]
     except HTTPException as e:
         raise e
     except Exception as e:
