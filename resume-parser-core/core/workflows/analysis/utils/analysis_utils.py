@@ -8,7 +8,6 @@ from core.workflows.llm import client
 from core.workflows.models.analysis import AnalysisResult
 from core.workflows.models.job_desc import JobDesc
 from utils.logger_utils import get_logger
-from utils.pydantic_to_schema import pydantic_to_schema
 
 logger = get_logger(__name__)
 # job_desc_schema = pydantic_to_schema(JobDesc.model_json_schema())
