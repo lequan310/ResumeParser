@@ -36,7 +36,7 @@ async def get_job_requirements(job_desc: str) -> dict:
         logger.info("Extracting job requirements...")
 
         response = await client.aio.models.generate_content(
-            model="gemini-2.0-flash",
+            model="gemini-2.5-flash",
             contents=types.Part.from_text(text=user_message),
             config=types.GenerateContentConfig(
                 system_instruction="Follow user instruction carefully and answer with the provided schema.",
@@ -82,7 +82,7 @@ async def get_analysis_result(resume: str, job_requirements: str) -> dict:
         today = datetime.today()
         formatted_date = f"{today.strftime('%B')} {today.day}, {today.year}"
         response = await client.aio.models.generate_content(
-            model="gemini-2.5-flash-preview-04-17",
+            model="gemini-2.5-flash",
             contents=types.Part.from_text(text=user_message),
             config=types.GenerateContentConfig(
                 system_instruction=f"You are a recruitment assistant. Follow user instruction carefully and answer with the provided schema. Note that the current date is {formatted_date} for reference purpose.",
