@@ -16,6 +16,8 @@ async def get_resume_markdown(state: InputState):
 
 async def get_resume_structured(state: State):
     resume: Resume = await convert_markdown_to_resume(state["markdown"])
+    if resume and resume.work_experiences is None:
+        resume.work_experiences = []
     resume = resume.model_dump()
 
     return {"output": resume}
