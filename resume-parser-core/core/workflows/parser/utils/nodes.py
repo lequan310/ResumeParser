@@ -25,7 +25,7 @@ async def postprocess_resume_output(state: State):
     output = state["output"]
     output["yoe"] = {"year": 0, "month": 0}
 
-    for exp in output["work_experiences"]:
+    for exp in output.get("work_experiences", []):
         exp["duration"] = get_position_duration(exp["start_date"], exp["end_date"])
         output["yoe"]["year"] += exp["duration"]["year"]
         output["yoe"]["month"] += exp["duration"]["month"]

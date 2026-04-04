@@ -22,7 +22,7 @@ class WorkExperience(BaseWorkExperience):
 
 class Resume(BaseResume):
     work_experiences: list[WorkExperience] = Field(
-        ..., description="The list of work experiences."
+        default_factory=list, description="The list of work experiences."
     )
     yoe: YOE = Field(
         ..., description="The total years of experience in years and months."
