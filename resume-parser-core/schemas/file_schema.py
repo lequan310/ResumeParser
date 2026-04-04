@@ -1,9 +1,9 @@
 from pydantic import BaseModel, Field
 
-from core.workflows.models.resume import (
+from agentic.models.resume import (
     Resume as BaseResume,
 )
-from core.workflows.models.resume import (
+from agentic.models.resume import (
     WorkExperience as BaseWorkExperience,
 )
 from schemas.base_schema import BaseResponseModel

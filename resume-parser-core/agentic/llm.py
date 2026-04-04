@@ -32,14 +32,15 @@ try:
         streaming=True,
     )
 
-    gemini_llm = ChatGoogleGenerativeAI(
-        model="gemini-2.0-flash",
+    gemini_llm_default = ChatGoogleGenerativeAI(
+        model="gemini-3.1-flash-lite-preview",
         api_key=settings.GOOGLE_API_KEY,
         temperature=0,
         max_tokens=None,
         timeout=None,
         max_retries=3,
     )
+    gemini_llm = gemini_llm_default.bind_tools([{"google_search": {}}])
 except Exception as e:
     logger.exception(e)
     raise Exception("Error creating GenAI client.")

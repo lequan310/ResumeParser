@@ -1,7 +1,7 @@
 from fastapi import UploadFile
 
-from core.workflows.parser.graph import ParserGraph
-from core.workflows.parser.utils.parse_utils import convert_to_markdown
+from agentic.parser.graph import ParserGraph
+from agentic.parser.utils.parse_utils import convert_to_markdown
 from services.base_service import BaseService
 
 

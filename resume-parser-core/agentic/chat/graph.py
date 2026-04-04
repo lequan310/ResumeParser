@@ -3,14 +3,14 @@ from langchain_core.runnables import RunnableConfig
 from langgraph.checkpoint.postgres.aio import AsyncPostgresSaver
 from langgraph.graph import END, START, StateGraph
 
-from core.db import get_connection_pool
-from core.workflows.chat.utils.nodes import (
+from agentic.chat.utils.nodes import (
     call_model,
     should_continue,
     summarize_conversation,
     tool_node,
 )
-from core.workflows.chat.utils.state import State
+from agentic.chat.utils.state import State
+from core.db import get_connection_pool
 from utils.logger_utils import get_logger
 
 logger = get_logger(__name__)

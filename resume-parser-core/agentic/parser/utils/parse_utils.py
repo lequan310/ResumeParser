@@ -2,9 +2,9 @@ from fastapi import HTTPException, UploadFile
 from google.genai import types
 from langsmith.run_helpers import traceable
 
-from core.workflows.llm import client
-from core.workflows.models.response import Response
-from core.workflows.models.resume import Resume
+from agentic.llm import client
+from agentic.models.response import Response
+from agentic.models.resume import Resume
 from utils.logger_utils import get_logger
 from utils.pdf_utils import get_context
 

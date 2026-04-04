@@ -1,4 +1,4 @@
-from core.workflows.chat.graph import ChatGraph
+from agentic.chat.graph import ChatGraph
 from services.base_service import BaseService
 
 

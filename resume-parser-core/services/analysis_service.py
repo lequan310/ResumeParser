@@ -1,4 +1,4 @@
-from core.workflows.analysis.graph import AnalysisGraph
+from agentic.analysis.graph import AnalysisGraph
 from services.base_service import BaseService
 
 
