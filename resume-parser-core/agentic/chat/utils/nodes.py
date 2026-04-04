@@ -9,11 +9,11 @@ from langchain_core.messages import (
 )
 from langchain_core.runnables import RunnableConfig
 
-from core.workflows.agent import deepseek_agent
-from core.workflows.chat.utils.prompts import DEEPSEEK_SYSTEM_MESSAGE
-from core.workflows.chat.utils.state import State
-from core.workflows.chat.utils.tools import tools_by_name
-from core.workflows.llm import gemini_llm
+from agentic.agent import deepseek_agent
+from agentic.chat.utils.prompts import DEEPSEEK_SYSTEM_MESSAGE
+from agentic.chat.utils.state import State
+from agentic.chat.utils.tools import tools_by_name
+from agentic.llm import gemini_llm
 from utils.logger_utils import get_logger
 
 MAX_CONVERSATION_LENGTH = 10

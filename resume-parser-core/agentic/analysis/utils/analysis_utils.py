@@ -4,9 +4,9 @@ from fastapi import HTTPException
 from google.genai import types
 from langsmith.run_helpers import traceable
 
-from core.workflows.llm import client
-from core.workflows.models.analysis import AnalysisResult
-from core.workflows.models.job_desc import JobDesc
+from agentic.llm import client
+from agentic.models.analysis import AnalysisResult
+from agentic.models.job_desc import JobDesc
 from utils.logger_utils import get_logger
 
 logger = get_logger(__name__)
@@ -36,7 +36,7 @@ async def get_job_requirements(job_desc: str) -> dict:
         logger.info("Extracting job requirements...")
 
         response = await client.aio.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-3.1-flash-lite-preview",
             contents=types.Part.from_text(text=user_message),
             config=types.GenerateContentConfig(
                 system_instruction="Follow user instruction carefully and answer with the provided schema.",
@@ -82,7 +82,7 @@ async def get_analysis_result(resume: str, job_requirements: str) -> dict:
         today = datetime.today()
         formatted_date = f"{today.strftime('%B')} {today.day}, {today.year}"
         response = await client.aio.models.generate_content(
-            model="gemini-2.5-flash",
+            model="gemini-3.1-flash-lite-preview",
             contents=types.Part.from_text(text=user_message),
             config=types.GenerateContentConfig(
                 system_instruction=f"You are a recruitment assistant. Follow user instruction carefully and answer with the provided schema. Note that the current date is {formatted_date} for reference purpose.",

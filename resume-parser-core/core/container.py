@@ -4,9 +4,9 @@ Dependency injection container using dependency-injector library.
 
 from dependency_injector import containers, providers
 
-from core.workflows.analysis.graph import AnalysisGraph
-from core.workflows.chat.graph import ChatGraph
-from core.workflows.parser.graph import ParserGraph
+from agentic.analysis.graph import AnalysisGraph
+from agentic.chat.graph import ChatGraph
+from agentic.parser.graph import ParserGraph
 from services.analysis_service import AnalysisService
 from services.chat_service import ChatService
 from services.file_service import FileService

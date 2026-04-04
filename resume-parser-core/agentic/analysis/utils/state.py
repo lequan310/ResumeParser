@@ -1,6 +1,6 @@
 from typing import TypedDict
 
-from core.workflows.models.analysis import AnalysisResult
+from agentic.models.analysis import AnalysisResult
 
 
 class InputState(TypedDict):

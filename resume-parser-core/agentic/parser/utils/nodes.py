@@ -1,10 +1,10 @@
-from core.workflows.models.resume import Resume
-from core.workflows.parser.utils.parse_utils import (
+from agentic.models.resume import Resume
+from agentic.parser.utils.parse_utils import (
     convert_markdown_to_resume,
     convert_to_markdown,
 )
-from core.workflows.parser.utils.state import InputState, State
-from core.workflows.parser.utils.tools import get_position_duration
+from agentic.parser.utils.state import InputState, State
+from agentic.parser.utils.tools import get_position_duration
 
 
 async def get_resume_markdown(state: InputState):
